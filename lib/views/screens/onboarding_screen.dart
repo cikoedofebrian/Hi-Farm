@@ -53,70 +53,76 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
   @override
   Widget build(BuildContext context) {
     return SafeArea(
-        child: Scaffold(
-      body: Column(children: [
-        Expanded(
-          child: PageView.builder(
-            controller: _pageController,
-            physics: const BouncingScrollPhysics(),
-            onPageChanged: (value) => setState(() {
-              _pageIndex = value;
-            }),
-            itemBuilder: (context, index) => OnboardingContent(
-                title: onboardingData[index].title,
-                content: onboardingData[index].content,
-                image: onboardingData[index].image),
-            itemCount: onboardingData.length,
-          ),
-        ),
-        SizedBox(
-          height: MediaQuery.of(context).size.height * 0.22,
-          child: Column(mainAxisAlignment: MainAxisAlignment.start, children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: List.generate(onboardingData.length,
-                  (index) => DotIndicator(isActive: _pageIndex == index)),
-            ),
-            const SizedBox(
-              height: 30,
-            ),
-            GestureDetector(
-              onTap: () {
-                if (_pageController.page == 2) {
-                  Get.toNamed(
-                    loginScreen,
-                  );
-                  return;
-                }
-                _pageController.nextPage(
-                  curve: Curves.ease,
-                  duration: const Duration(milliseconds: 300),
-                );
-              },
-              child: Container(
-                width: 64,
-                decoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                  border: Border.all(width: 1, color: secondary),
-                ),
-                child: const CircleAvatar(
-                  backgroundColor: primary,
-                  radius: 32,
-                  child: CircleAvatar(
-                    radius: 26,
-                    backgroundColor: secondary,
-                    child: Icon(
-                      Icons.arrow_forward_rounded,
-                      color: Colors.white,
-                      size: 28,
-                    ),
-                  ),
-                ),
+      child: Scaffold(
+        body: Column(
+          children: [
+            Expanded(
+              child: PageView.builder(
+                controller: _pageController,
+                physics: const BouncingScrollPhysics(),
+                onPageChanged: (value) => setState(() {
+                  _pageIndex = value;
+                }),
+                itemBuilder: (context, index) => OnboardingContent(
+                    title: onboardingData[index].title,
+                    content: onboardingData[index].content,
+                    image: onboardingData[index].image),
+                itemCount: onboardingData.length,
               ),
             ),
-          ]),
+            SizedBox(
+              height: MediaQuery.of(context).size.height * 0.22,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: List.generate(onboardingData.length,
+                        (index) => DotIndicator(isActive: _pageIndex == index)),
+                  ),
+                  const SizedBox(
+                    height: 30,
+                  ),
+                  GestureDetector(
+                    onTap: () {
+                      if (_pageController.page == 2) {
+                        Get.toNamed(
+                          loginScreen,
+                        );
+                        return;
+                      }
+                      _pageController.nextPage(
+                        curve: Curves.ease,
+                        duration: const Duration(milliseconds: 300),
+                      );
+                    },
+                    child: Container(
+                      width: 64,
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        border: Border.all(width: 1, color: secondary),
+                      ),
+                      child: const CircleAvatar(
+                        backgroundColor: primary,
+                        radius: 32,
+                        child: CircleAvatar(
+                          radius: 26,
+                          backgroundColor: secondary,
+                          child: Icon(
+                            Icons.arrow_forward_rounded,
+                            color: Colors.white,
+                            size: 28,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ],
         ),
-      ]),
-    ));
+      ),
+    );
   }
 }

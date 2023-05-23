@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 
 class OnboardingContent extends StatelessWidget {
@@ -27,7 +26,7 @@ class OnboardingContent extends StatelessWidget {
           ),
           Text(
             title,
-            style: Theme.of(context).textTheme.titleMedium,
+            style: Theme.of(context).textTheme.titleLarge,
           ),
           const SizedBox(
             height: 10,
