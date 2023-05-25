@@ -18,14 +18,14 @@ class AuthController extends Controller
             "password" => "required|min:6|confirmed"
         ]);
         if ($validation->fails()) {
-            return json_encode($validation->errors());
+            return $this->response_badrequest($validation->errors());
         }
         $data = $validation->validated();
         $data["password"] = Hash::make($data["password"]);
         $user = new User($data);
         $user->save();
         $token = $user->createToken("AuthToken")->plainTextToken;
-        return json_encode(["auth_token"=>$token]);
+        return $this->response_success(["auth_token"=>$token]);
     }
 
     public function login(Request $request)
@@ -35,12 +35,12 @@ class AuthController extends Controller
             "password" => "required|min:6"
         ]);
         if ($validation->fails()) {
-            return json_encode($validation->errors());
+            return $this->response_badrequest($validation->errors());
         }
         if (Auth::attempt($validation->validated())) {
             $token = Auth::user()->createToken("AuthToken")->plainTextToken;
-            return json_encode(["auth_token"=>$token]);
+            return $this->response_success(["auth_token"=>$token]);
         }
-        return json_encode(["password" => ["The password field confirmation does not match."]]);
+        return $this->response_badrequest(["password" => ["The password field confirmation does not match."]]);
     }
 }
