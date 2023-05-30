@@ -11,7 +11,7 @@ class RoundedItem extends StatelessWidget {
       children: [
         Container(
           alignment: Alignment.center,
-          height: 80,
+          height: 40,
           decoration: const BoxDecoration(
             color: Colors.white,
             borderRadius: BorderRadius.only(

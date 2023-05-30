@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hifarm/constants/appcolor.dart';
-import 'package:hifarm/controllers/homecontroller.dart';
+import 'package:hifarm/controllers/home_controller.dart';
 import 'package:hifarm/views/widgets/navbar_indicator.dart';
 import 'package:iconify_flutter/iconify_flutter.dart';
 
@@ -36,14 +36,15 @@ class NavbarIcon extends StatelessWidget {
                 Iconify(
                   icon,
                   size: size ?? 24,
-                  color: tertiary,
+                  color: AppColor.tertiary,
                 ),
                 const SizedBox(
                   height: 10,
                 ),
                 Text(
                   text,
-                  style: const TextStyle(fontSize: 12, color: tertiary),
+                  style:
+                      const TextStyle(fontSize: 12, color: AppColor.tertiary),
                 ),
               ],
             ),

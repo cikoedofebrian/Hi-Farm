@@ -22,7 +22,7 @@ class AuthButton extends StatelessWidget {
               offset: Offset(0, 2.5),
             )
           ],
-          color: secondary,
+          color: AppColor.secondary,
           borderRadius: BorderRadius.circular(10),
         ),
         child: Text(

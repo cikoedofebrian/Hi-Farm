@@ -3,7 +3,7 @@ import 'package:get/get.dart';
 import 'package:hifarm/constants/appcolor.dart';
 import 'package:hifarm/constants/image_string.dart';
 import 'package:hifarm/constants/routes.dart';
-import 'package:hifarm/controllers/authcontroller.dart';
+import 'package:hifarm/controllers/auth_controller.dart';
 import 'package:hifarm/views/widgets/auth_button.dart';
 import 'package:hifarm/views/widgets/custom_checkbox.dart';
 import 'package:hifarm/views/widgets/rounded_page.dart';
@@ -17,7 +17,7 @@ class RegisterScreen extends StatelessWidget {
     return SafeArea(
       child: LayoutBuilder(
         builder: (context, snapshot) => Scaffold(
-          backgroundColor: secondary,
+          backgroundColor: AppColor.secondary,
           body: SingleChildScrollView(
             physics: const ClampingScrollPhysics(),
             child: Column(

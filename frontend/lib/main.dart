@@ -3,9 +3,10 @@ import 'package:hifarm/constants/appcolor.dart';
 import 'package:hifarm/constants/routes.dart';
 import 'package:hifarm/views/screens/authentication/login_screen.dart';
 import 'package:hifarm/views/screens/authentication/register_screen.dart';
+import 'package:hifarm/views/screens/features/home/feed/post_details.dart';
 import 'package:hifarm/views/screens/features/home/home.dart';
-import 'package:hifarm/views/screens/onboarding_screen.dart';
 import 'package:get/get.dart';
+import 'package:hifarm/views/screens/features/home/news/news_details.dart';
 
 void main() {
   runApp(const MyApp());
@@ -21,14 +22,18 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         fontFamily: 'Poppins',
         textTheme: const TextTheme(
-          titleSmall: TextStyle(fontWeight: FontWeight.w600, fontSize: 15),
-          titleMedium: TextStyle(fontSize: 14),
-          titleLarge: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
-          labelSmall: TextStyle(fontWeight: FontWeight.w600, fontSize: 9),
+          titleSmall: TextStyle(fontWeight: FontWeight.w600, fontSize: 14),
+          titleMedium: TextStyle(
+            fontSize: 16,
+            fontWeight: FontWeight.w600,
+          ),
+          titleLarge: TextStyle(fontWeight: FontWeight.bold, fontSize: 22),
+          labelSmall: TextStyle(fontWeight: FontWeight.w400, fontSize: 10),
+          labelMedium: TextStyle(fontWeight: FontWeight.w400, fontSize: 12),
         ),
-        primaryColor: secondary,
+        primaryColor: AppColor.secondary,
         inputDecorationTheme: InputDecorationTheme(
-          fillColor: formColor,
+          fillColor: AppColor.formColor,
           border: OutlineInputBorder(
               borderRadius: BorderRadius.circular(10),
               borderSide: BorderSide.none),
@@ -38,7 +43,7 @@ class MyApp extends StatelessWidget {
       ),
       defaultTransition: Transition.rightToLeft,
       transitionDuration: const Duration(milliseconds: 200),
-      home: const OnboardingScreen(),
+      home: const HomeScreen(),
       getPages: [
         GetPage(
           name: loginScreen,
@@ -48,7 +53,18 @@ class MyApp extends StatelessWidget {
           name: registerScreen,
           page: () => const RegisterScreen(),
         ),
-        GetPage(name: homeScreen, page: () => const HomeScreen()),
+        GetPage(
+          name: newsDetails,
+          page: () => const NewsDetails(),
+        ),
+        GetPage(
+          name: homeScreen,
+          page: () => const HomeScreen(),
+        ),
+        GetPage(
+          name: postDetails,
+          page: () => const PostDetails(),
+        ),
       ],
     );
   }

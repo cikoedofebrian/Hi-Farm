@@ -12,7 +12,7 @@ class NavbarIndicator extends StatelessWidget {
         height: 4,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(10),
-          color: tertiary,
+          color: AppColor.tertiary,
           boxShadow: const [
             BoxShadow(
               color: Colors.black26,

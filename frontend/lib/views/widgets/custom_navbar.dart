@@ -1,12 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hifarm/constants/appcolor.dart';
-import 'package:hifarm/controllers/authcontroller.dart';
-import 'package:hifarm/controllers/homecontroller.dart';
+import 'package:hifarm/controllers/home_controller.dart';
 import 'package:hifarm/views/widgets/navbar_icon.dart';
-import 'package:hifarm/views/widgets/navbar_indicator.dart';
-import 'package:iconify_flutter/iconify_flutter.dart';
-import 'package:iconify_flutter/icons/majesticons.dart';
 import 'package:iconify_flutter/icons/teenyicons.dart';
 import 'package:iconify_flutter/icons/ph.dart';
 import 'package:iconify_flutter/icons/carbon.dart';
@@ -29,7 +25,7 @@ class _CustomNavState extends State<CustomNav> {
       height: 100,
       decoration: const BoxDecoration(
         color: Colors.white,
-        border: Border(top: BorderSide(width: 2, color: formColor)),
+        border: Border(top: BorderSide(width: 2, color: AppColor.formColor)),
       ),
       padding: const EdgeInsets.symmetric(
         horizontal: 20,

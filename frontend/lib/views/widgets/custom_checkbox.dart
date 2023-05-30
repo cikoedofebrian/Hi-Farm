@@ -27,7 +27,7 @@ class _CustomCheckboxState extends State<CustomCheckbox> {
             height: 30,
             width: 30,
             decoration: BoxDecoration(
-              border: Border.all(width: 1, color: formColor),
+              border: Border.all(width: 1, color: AppColor.formColor),
               borderRadius: BorderRadius.circular(10),
             ),
             child: widget.value

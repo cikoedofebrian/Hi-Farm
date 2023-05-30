@@ -15,7 +15,7 @@ class DotIndicator extends StatelessWidget {
       margin: const EdgeInsets.symmetric(horizontal: 3),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(isActive ? 20 : 100),
-        color: isActive ? secondary : Colors.grey,
+        color: isActive ? AppColor.secondary : Colors.grey,
       ),
     );
   }
