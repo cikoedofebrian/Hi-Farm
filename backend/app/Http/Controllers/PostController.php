@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Http\Resources\PostCollection;
 use App\Models\Picture;
 use App\Models\Post;
-use App\Models\PostTag;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
