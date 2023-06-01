@@ -44,7 +44,7 @@ class ProdukController extends Controller
             $picture = new Picture(["url" => $data["pic"]]);
             $picture->save();
             $data = $validation->safe()->only(["name", "price", "city"]);
-            $data["user_id"] = Auth::user()->id;
+            $data["user_id"] = Auth::user()->getAuthIdentifier();
             $data["picture_id"] = $picture->id;
             $produk = new Produk($data);
             $produk->save();
