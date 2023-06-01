@@ -40,5 +40,14 @@ Route::middleware("auth:api")->group(function () {
         Route::get("/", [\App\Http\Controllers\ProdukController::class, "get"]);
         Route::get("/{id}", [\App\Http\Controllers\ProdukController::class, "getOne"]);
         Route::post("/", [\App\Http\Controllers\ProdukController::class, "create"]);
+        Route::put("/{id}", [\App\Http\Controllers\ProdukController::class, "edit"]);
+        Route::delete("/{id}", [\App\Http\Controllers\ProdukController::class, "delete"]);
+    });
+
+    Route::prefix("/history")->group(function () {
+        Route::prefix("/produk")->group(function(){
+            Route::get("/", [\App\Http\Controllers\ProdukController::class, "getHistory"]);
+            Route::get("/{id}", [\App\Http\Controllers\ProdukController::class, "getHistoryOne"]);
+        });
     });
 });

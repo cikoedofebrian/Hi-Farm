@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\HistoryBarang;
 use App\Models\Picture;
 use App\Models\Produk;
 use Illuminate\Http\Request;
@@ -54,5 +55,76 @@ class ProdukController extends Controller
             DB::rollBack();
             return $this->response_error(["error" => $e->getMessage()], 500);
         }
+    }
+
+    public function edit($id, Request $request)
+    {
+        $validation = Validator::make($request->all(), [
+            "name" => "required",
+            "price" => "required",
+            "city" => "required",
+            "pic" => "nullable"
+        ]);
+        if ($validation->fails()) {
+            return $this->response_badrequest($validation->errors());
+        }
+        DB::beginTransaction();
+        try {
+            $produk = Produk::find($id);
+            if (Auth::user()->getAuthIdentifier() !== $produk->user_id) {
+                return $this->response_unauthorized();
+            }
+            $data = $validation->safe()->only(["name", "price", "city"]);
+            $produk->name = $data["name"];
+            $produk->price = $data["price"];
+            $produk->city = $data["city"];
+            if ($request->input("pic")) {
+                $data = $validation->safe()->only("pic");
+                $picture = new Picture(["url" => $data["pic"]]);
+                $picture->save();
+                $produk->picture_id = $picture->id;
+            }
+            $produk->save();
+            DB::commit();
+            return $this->response_success(["message" => "updated", "id" => $produk->id]);
+        } catch (Exception $e) {
+            DB::rollBack();
+            return $this->response_error(["error" => $e->getMessage()], 500);
+        }
+    }
+
+    public function delete($id)
+    {
+        $produk = Produk::find($id);
+        if ($produk) {
+            if (Auth::user()->getAuthIdentifier() !== $produk->user_id) {
+                return $this->response_unauthorized();
+            }
+            $history = new HistoryBarang([
+                "name" => $produk->name,
+                "price" => $produk->price,
+                "city" => $produk->city,
+                "user_id" => $produk->user_id,
+                "picture_id" => $produk->picture_id
+            ]);
+            $history->save();
+            $produk->delete();
+            return $this->response_success(["message" => "deleted", "history_id" => $history->id]);
+        }
+        return $this->response_notfound();
+    }
+
+    public function getHistory(){
+        $histories = HistoryBarang::where("user_id", Auth::user()->getAuthIdentifier())->with(["pic", "user"])->get();
+        return $this->response_success($histories);
+    }
+
+    public function getHistoryOne($id)
+    {
+        $history = HistoryBarang::where("user_id", Auth::user()->getAuthIdentifier())->with(["user", "pic"])->find($id);
+        if ($history) {
+            return $this->response_success($history);
+        }
+        return $this->response_notfound();
     }
 }
