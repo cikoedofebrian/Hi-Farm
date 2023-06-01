@@ -17,17 +17,28 @@ use Illuminate\Support\Facades\Route;
 
 Route::post("/login", [AuthController::class, "login"]);
 Route::post("/register", [AuthController::class, "register"]);
+Route::get("/unauthorized", function () {
+    return response()->json(["message" => "unauthorized"], 403);
+})->name("unauthorized");
 
 Route::middleware("auth:api")->group(function () {
-    Route::get("/post", [PostController::class, "get"]);
-    Route::get("/post/{id}", [PostController::class, "getOne"]);
-    Route::post("/post", [PostController::class, "create"]);
-    Route::delete("/post/{id}", [PostController::class, "delete"]);
-    Route::put("/post/{id}", [PostController::class, "edit"]);
+    Route::prefix("/post")->group(function () {
+        Route::get("/", [PostController::class, "get"]);
+        Route::get("/{id}", [PostController::class, "getOne"]);
+        Route::post("/", [PostController::class, "create"]);
+        Route::delete("/{id}", [PostController::class, "delete"]);
+        Route::put("/{id}", [PostController::class, "edit"]);
+    });
 
     Route::prefix("/berita")->group(function () {
         Route::get("/", [\App\Http\Controllers\BeritaController::class, "get"]);
         Route::get("/{id}", [\App\Http\Controllers\BeritaController::class, "getOne"]);
         Route::post("/", [\App\Http\Controllers\BeritaController::class, "create"]);
+    });
+
+    Route::prefix("/produk")->group(function () {
+        Route::get("/", [\App\Http\Controllers\ProdukController::class, "get"]);
+        Route::get("/{id}", [\App\Http\Controllers\ProdukController::class, "getOne"]);
+        Route::post("/", [\App\Http\Controllers\ProdukController::class, "create"]);
     });
 });

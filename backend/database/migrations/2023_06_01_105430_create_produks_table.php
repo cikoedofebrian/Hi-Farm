@@ -13,6 +13,11 @@ return new class extends Migration
     {
         Schema::create('produks', function (Blueprint $table) {
             $table->id();
+            $table->string("name");
+            $table->integer("price");
+            $table->string("city");
+            $table->foreignId("user_id")->constrained()->cascadeOnDelete()->cascadeOnUpdate();
+            $table->foreignId("picture_id")->cascadeOnDelete()->cascadeOnUpdate();
             $table->timestamps();
         });
     }
