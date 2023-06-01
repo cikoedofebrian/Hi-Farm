@@ -5,14 +5,16 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class PostTag extends Model
+class DetailPesanan extends Model
 {
     use HasFactory;
+
     protected $fillable = [
-        "post_id",
-        "user_id"
+        "pesanan_id", "produk_id", "qty"
     ];
-    public function user(){
-        return $this->belongsTo(User::class);
-    }
+
+    protected $hidden = [
+        "created_at",
+        "updated_at"
+    ];
 }

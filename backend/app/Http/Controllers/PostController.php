@@ -2,10 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Resources\PostCollection;
 use App\Models\Picture;
 use App\Models\Post;
-use App\Models\PostTag;
+use App\Models\PostPicture;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -14,19 +13,19 @@ use PHPUnit\Exception;
 
 class PostController extends Controller
 {
-    public function get(Request $request)
+    public function get()
     {
-        $id = $request->input("id");
-        if ($id) {
-            $post = Post::with(["pics", "tags"=>["user"]])->firstWhere("id", $id);
-            if ($post) {
-                return $this->response_success($post);
-            }
-            return $this->response_notfound();
-        } else {
-            $posts = Post::with(["pics", "tags"=>["user"]])->get();
-            return $this->response_success(PostCollection::collection($posts));
+        $posts = Post::with(["pics", "user"])->get();
+        return $this->response_success($posts);
+    }
+
+    public function getOne($id)
+    {
+        $post = Post::with(["pics", "user"])->find($id);
+        if ($post) {
+            return $this->response_success($post);
         }
+        return $this->response_notfound();
     }
 
     public function create(Request $request)
@@ -35,9 +34,7 @@ class PostController extends Controller
             "description" => "required",
             "ln" => "required",
             "lt" => "required",
-            "pics" => "required|array",
-            "tags" => "required|array",
-            "tags.*" => "exists:users,id",
+            "pics" => "required|array"
         ]);
         if ($validation->fails()) {
             return $this->response_badrequest($validation->errors());
@@ -50,15 +47,13 @@ class PostController extends Controller
             $post = new Post($postData);
             $post->save();
             foreach ($data["pics"] as $pic) {
-                $postpic = new Picture(["url" => $pic, "post_id" => $post->id]);
+                $picture = new Picture(["url" => $pic, "post_id" => $post->id]);
+                $picture->save();
+                $postpic = new PostPicture(["post_id" => $post->id, "picture_id" => $picture->id]);
                 $postpic->save();
             }
-            foreach ($data["tags"] as $tag) {
-                $posttag = new PostTag(["user_id" => $tag, "post_id" => $post->id]);
-                $posttag->save();
-            }
             DB::commit();
-            return $this->response_success(["message" => "posted"]);
+            return $this->response_success(["message" => "posted", "id" => $post->id]);
         } catch (Exception $e) {
             DB::rollBack();
             return $this->response_error(["error" => $e->getMessage()], 500);
@@ -72,8 +67,6 @@ class PostController extends Controller
             "ln" => "required",
             "lt" => "required",
             "pics" => "required|array",
-            "tags" => "nullable|array",
-            "tags.*" => "exists:users,id",
         ]);
         if ($validation->fails()) {
             return $this->response_badrequest($validation->errors());
@@ -88,23 +81,20 @@ class PostController extends Controller
                     $post->ln = $data["ln"];
                     $post->lt = $data["lt"];
                     $post->save();
-                    Picture::where("post_id", $post->id)->delete();
+                    PostPicture::where("post_id", $post->id)->with("pic")->delete();
                     foreach ($data["pics"] as $pic) {
-                        $postpic = new Picture(["url" => $pic, "post_id" => $post->id]);
+                        $picture = new Picture(["url" => $pic, "post_id" => $post->id]);
+                        $picture->save();
+                        $postpic = new PostPicture(["post_id" => $post->id, "picture_id" => $picture->id]);
                         $postpic->save();
                     }
-                    PostTag::where("post_id", $post->id)->delete();
-                    foreach ($data["tags"] as $tag) {
-                        $posttag = new PostTag(["user_id" => $tag, "post_id" => $post->id]);
-                        $posttag->save();
-                    }
                     DB::commit();
-                    return $this->response_success(["message" => "updated"]);
+                    return $this->response_success(["message" => "updated", "id" => $post->id]);
                 } catch (Exception $e) {
                     DB::rollBack();
                     return $this->response_error(["error" => $e->getMessage()], 500);
                 }
-            }else{
+            } else {
                 return $this->response_unauthorized();
             }
         } else {

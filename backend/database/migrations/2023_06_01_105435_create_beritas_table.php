@@ -11,10 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('post_tags', function (Blueprint $table) {
+        Schema::create('beritas', function (Blueprint $table) {
             $table->id();
-            $table->foreignId("post_id")->constrained()->cascadeOnDelete()->cascadeOnUpdate();
-            $table->foreignId("user_id")->constrained();
+            $table->string("judul");
+            $table->text("description");
+            $table->foreignId("picture_id")->constrained();
             $table->timestamps();
         });
     }
@@ -24,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('post_tags');
+        Schema::dropIfExists('beritas');
     }
 };

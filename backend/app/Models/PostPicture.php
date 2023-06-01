@@ -5,15 +5,14 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Picture extends Model
+class PostPicture extends Model
 {
     use HasFactory;
-
-    protected $hidden = [
-        'created_at',
-        'updated_at',
-    ];
     protected $fillable = [
-        "url"
+      "post_id", "picture_id"
     ];
+
+    public function pic(){
+        return $this->belongsTo(Picture::class);
+    }
 }

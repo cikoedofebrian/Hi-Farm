@@ -24,7 +24,8 @@ class AuthController extends Controller
         $data["password"] = Hash::make($data["password"]);
         $user = new User($data);
         $user->save();
-        $token = $user->createToken("AuthToken")->plainTextToken;
+        $credentials = $request->only("email", "password");
+        $token = Auth::guard("api")->attempt($credentials);
         return $this->response_success(["auth_token"=>$token]);
     }
 
@@ -37,8 +38,7 @@ class AuthController extends Controller
         if ($validation->fails()) {
             return $this->response_badrequest($validation->errors());
         }
-        if (Auth::attempt($validation->validated())) {
-            $token = Auth::user()->createToken("AuthToken")->plainTextToken;
+        if ($token = Auth::guard("api")->attempt($validation->validated())) {
             return $this->response_success(["auth_token"=>$token]);
         }
         return $this->response_badrequest(["password" => ["The password field confirmation does not match."]]);
