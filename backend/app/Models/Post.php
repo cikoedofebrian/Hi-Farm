@@ -15,9 +15,6 @@ class Post extends Model
         "user_id"
     ];
 
-    public function tags(){
-        return $this->hasMany(PostTag::class);
-    }
     public function pics(){
         return $this->hasMany(Picture::class);
     }

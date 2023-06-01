@@ -18,7 +18,7 @@ use Illuminate\Support\Facades\Route;
 Route::post("/login", [AuthController::class, "login"]);
 Route::post("/register", [AuthController::class, "register"]);
 
-Route::middleware("auth:sanctum")->group(function () {
+Route::middleware("auth:api")->group(function () {
     Route::get("/post", [PostController::class, "get"]);
     Route::post("/post", [PostController::class, "create"]);
     Route::delete("/post/{id}", [PostController::class, "delete"]);
