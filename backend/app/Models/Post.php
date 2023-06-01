@@ -15,8 +15,13 @@ class Post extends Model
         "user_id"
     ];
 
+    protected $hidden = [
+        'created_at',
+        'updated_at',
+    ];
+
     public function pics(){
-        return $this->hasMany(Picture::class);
+        return $this->hasManyThrough(Picture::class, PostPicture::class, "post_id", "id", "id", "picture_id");
     }
 
     public function user(){
