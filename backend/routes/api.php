@@ -45,9 +45,20 @@ Route::middleware("auth:api")->group(function () {
     });
 
     Route::prefix("/history")->group(function () {
-        Route::prefix("/produk")->group(function(){
+        Route::prefix("/produk")->group(function () {
             Route::get("/", [\App\Http\Controllers\ProdukController::class, "getHistory"]);
             Route::get("/{id}", [\App\Http\Controllers\ProdukController::class, "getHistoryOne"]);
         });
+    });
+
+    Route::prefix("/alamat")->group(function () {
+        Route::get("/", [\App\Http\Controllers\PesananController::class, "getAlamat"]);
+        Route::post("/", [\App\Http\Controllers\PesananController::class, "createAlamat"]);
+    });
+
+    Route::prefix("/pesanan")->group(function () {
+        Route::get("/", [\App\Http\Controllers\PesananController::class, "get"]);
+        Route::get("/{id}", [\App\Http\Controllers\PesananController::class, "getOne"]);
+        Route::post("/", [\App\Http\Controllers\PesananController::class, "create"]);
     });
 });
