@@ -1,8 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:hifarm/constants/appcolor.dart';
 import 'package:hifarm/constants/routes.dart';
+import 'package:hifarm/controllers/auth_binding.dart';
+import 'package:hifarm/controllers/auth_controller.dart';
+import 'package:hifarm/controllers/home_bindings.dart';
 import 'package:hifarm/views/screens/authentication/login_screen.dart';
+import 'package:hifarm/views/screens/authentication/onboarding_screen.dart';
 import 'package:hifarm/views/screens/authentication/register_screen.dart';
+import 'package:hifarm/views/screens/features/home/feed/add_new_post.dart';
 import 'package:hifarm/views/screens/features/home/feed/post_details.dart';
 import 'package:hifarm/views/screens/features/home/home.dart';
 import 'package:get/get.dart';
@@ -18,6 +23,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp(
+      initialBinding: AuthBinding(),
       title: 'Hi-Farm',
       theme: ThemeData(
         fontFamily: 'Poppins',
@@ -43,8 +49,12 @@ class MyApp extends StatelessWidget {
       ),
       defaultTransition: Transition.rightToLeft,
       transitionDuration: const Duration(milliseconds: 200),
-      home: const HomeScreen(),
+      home: const OnboardingScreen(),
       getPages: [
+        GetPage(
+          name: onboardingScreen,
+          page: () => const OnboardingScreen(),
+        ),
         GetPage(
           name: loginScreen,
           page: () => const LoginScreen(),
@@ -60,6 +70,10 @@ class MyApp extends StatelessWidget {
         GetPage(
           name: homeScreen,
           page: () => const HomeScreen(),
+        ),
+        GetPage(
+          name: addNewPost,
+          page: () => const AddNewPost(),
         ),
         GetPage(
           name: postDetails,

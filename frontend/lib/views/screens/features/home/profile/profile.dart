@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:hifarm/constants/appcolor.dart';
+import 'package:hifarm/controllers/auth_controller.dart';
 import 'package:hifarm/views/widgets/rounded_top_padding.dart';
 import 'package:hifarm/views/widgets/small_button.dart';
 
@@ -8,6 +10,7 @@ class Profile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final AuthController authController = Get.find();
     return Scaffold(
       backgroundColor: Colors.white,
       body: Column(children: [
@@ -84,7 +87,10 @@ class Profile extends StatelessWidget {
               ),
               Column(
                 children: [
-                  SmallButton(function: () {}, text: 'Log Out'),
+                  SmallButton(
+                    function: authController.logout,
+                    text: 'Log Out',
+                  ),
                   const SizedBox(
                     height: 140,
                   ),

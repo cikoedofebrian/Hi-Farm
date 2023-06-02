@@ -13,17 +13,20 @@ class SmallButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(
-        color: AppColor.tertiary,
-        borderRadius: BorderRadius.circular(10),
-      ),
-      padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 20),
-      child: Text(
-        text,
-        style: Theme.of(context).textTheme.titleSmall!.copyWith(
-              color: Colors.white,
-            ),
+    return InkWell(
+      onTap: () => function(),
+      child: Container(
+        decoration: BoxDecoration(
+          color: AppColor.tertiary,
+          borderRadius: BorderRadius.circular(10),
+        ),
+        padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 20),
+        child: Text(
+          text,
+          style: Theme.of(context).textTheme.titleSmall!.copyWith(
+                color: Colors.white,
+              ),
+        ),
       ),
     );
   }

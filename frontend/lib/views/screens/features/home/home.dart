@@ -13,9 +13,7 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  final HomeController homeController = Get.put(
-    HomeController(),
-  );
+  final HomeController homeController = Get.find();
   @override
   Widget build(BuildContext context) {
     return SafeArea(

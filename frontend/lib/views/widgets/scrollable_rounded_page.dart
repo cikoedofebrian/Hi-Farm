@@ -25,7 +25,7 @@ class ScrollableRoundedPage extends StatelessWidget {
           pinned: false,
           flexibleSpace: FlexibleSpaceBar(
             background: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 25),
+              padding: const EdgeInsets.symmetric(horizontal: 30),
               child: topContent,
             ),
           ),
