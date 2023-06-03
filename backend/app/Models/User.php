@@ -35,6 +35,7 @@ class User extends Authenticatable implements JWTSubject
         'name',
         'email',
         'password',
+        "picture_id",
     ];
 
     /**
@@ -59,4 +60,8 @@ class User extends Authenticatable implements JWTSubject
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
+
+    public function pic(){
+        return $this->belongsTo(Picture::class, "picture_id");
+    }
 }

@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\PostController;
+use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -22,6 +23,11 @@ Route::get("/unauthorized", function () {
 })->name("unauthorized");
 
 Route::middleware("auth:api")->group(function () {
+    Route::prefix("/profile")->group(function () {
+        Route::get("/me", [UserController::class, "getMe"]);
+        Route::put("/", [UserController::class, "edit"]);
+    });
+
     Route::prefix("/post")->group(function () {
         Route::get("/", [PostController::class, "get"]);
         Route::get("/{id}", [PostController::class, "getOne"]);
