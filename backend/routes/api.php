@@ -36,6 +36,11 @@ Route::middleware("auth:api")->group(function () {
         Route::put("/{id}", [PostController::class, "edit"]);
     });
 
+    Route::prefix("/comment")->group(function () {
+       Route::get("/{postId}", [PostController::class, "getComment"]);
+       Route::post("/{postId}", [PostController::class, "postComment"]);
+    });
+
     Route::prefix("/berita")->group(function () {
         Route::get("/", [\App\Http\Controllers\BeritaController::class, "get"]);
         Route::get("/{id}", [\App\Http\Controllers\BeritaController::class, "getOne"]);
