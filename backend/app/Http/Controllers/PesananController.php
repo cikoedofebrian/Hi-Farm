@@ -8,6 +8,7 @@ use App\Models\Pesanan;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Validation\ValidationException;
 use PHPUnit\Exception;
 
 class PesananController extends Controller
@@ -24,6 +25,7 @@ class PesananController extends Controller
         }
         return $this->response_notfound();
     }
+
     public function create(Request $request)
     {
         $validated = $this->validate($request, [
