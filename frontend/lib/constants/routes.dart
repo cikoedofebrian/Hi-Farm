@@ -6,3 +6,4 @@ const String newsDetails = '/news_details';
 const String postDetails = '/post_details';
 const String addNewPost = '/add_new_post';
 const String onboardingScreen = '/';
+const String addPostLocation = '/add_post_location';

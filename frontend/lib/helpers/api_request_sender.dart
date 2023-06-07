@@ -1,27 +1,32 @@
 import 'dart:convert';
-
+import 'package:get/get.dart';
 import 'package:hifarm/constants/api_method.dart';
+import 'package:hifarm/controllers/auth_controller.dart';
 import 'package:http/http.dart' as http;
 
 class ApiRequestSender {
-  static Future<Map<String, dynamic>?> sendHttpRequest(
+  static Future<dynamic> sendHttpRequest(
     String method,
     String url,
     Map<String, dynamic>? body,
   ) async {
+    final AuthController authController = Get.find();
     final Uri parsedUrl = Uri.parse(url);
+    late final dynamic result;
     switch (method) {
       case ApiMethod.get:
-        final result = await http.get(parsedUrl);
-        return jsonDecode(result.body);
+        result = await http.get(parsedUrl,
+            headers: {'Authorization': 'Bearer ${authController.token}'});
+        break;
       case ApiMethod.delete:
         return null;
       case ApiMethod.post:
-        final result = await http.post(parsedUrl, body: body);
-        return jsonDecode(result.body);
+        result = await http.post(parsedUrl, body: body);
+        break;
       case ApiMethod.put:
         return null;
     }
-    return null;
+    final decodedBody = jsonDecode(result.body);
+    return decodedBody;
   }
 }

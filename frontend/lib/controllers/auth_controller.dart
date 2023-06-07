@@ -32,9 +32,6 @@ class AuthController extends GetxController {
 
   Future<void> register(String name, String password, String email,
       String confirmationPassword) async {
-    print(email);
-    print(password);
-    print(confirmationPassword);
     if (password != confirmationPassword) {
       Get.showSnackbar(
         const GetSnackBar(
@@ -46,6 +43,7 @@ class AuthController extends GetxController {
       );
       return;
     }
+
     final result = await ApiRequestSender.sendHttpRequest(
       ApiMethod.post,
       ApiLink.register,

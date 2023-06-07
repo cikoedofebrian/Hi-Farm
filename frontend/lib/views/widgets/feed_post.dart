@@ -1,15 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hifarm/constants/routes.dart';
+import 'package:hifarm/models/data/post_model.dart';
 
 class FeedPost extends StatelessWidget {
-  const FeedPost({super.key});
+  const FeedPost({
+    super.key,
+    required this.data,
+  });
+
+  final MPost data;
 
   @override
   Widget build(BuildContext context) {
-    final size = MediaQuery.of(context).size.width;
+    final size = MediaQuery.of(context).size;
     return InkWell(
-      onTap: () => Get.toNamed(postDetails),
+      onTap: () => Get.toNamed(postDetails, arguments: data.id),
       child: Container(
         decoration: const BoxDecoration(
           border: Border(
@@ -21,6 +27,7 @@ class FeedPost extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.only(left: 20, top: 20, right: 20),
               child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -35,17 +42,16 @@ class FeedPost extends StatelessWidget {
                           const SizedBox(
                             width: 10,
                           ),
-                          const Text('Rahel Jessy'),
+                          Text(data.user.name),
                         ],
                       ),
                       const Icon(Icons.more_vert_rounded)
                     ],
                   ),
                   const SizedBox(
-                    height: 5,
+                    height: 10,
                   ),
-                  const Text(
-                      'Infonya lur baru nanem cabe, semoga bisa berbuah lebat ya'),
+                  Text(data.description),
                   const SizedBox(
                     height: 10,
                   ),
@@ -53,9 +59,14 @@ class FeedPost extends StatelessWidget {
               ),
             ),
             SizedBox(
-              height: size,
-              width: size,
-              child: Image.asset('assets/home_images/image 1.png'),
+              height: size.width,
+              child: PageView.builder(
+                itemCount: 10,
+                itemBuilder: (context, index) => Image.network(
+                  data.pics[0],
+                  fit: BoxFit.cover,
+                ),
+              ),
             ),
             const SizedBox(
               height: 20,

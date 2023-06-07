@@ -8,6 +8,7 @@ import 'package:hifarm/views/screens/authentication/login_screen.dart';
 import 'package:hifarm/views/screens/authentication/onboarding_screen.dart';
 import 'package:hifarm/views/screens/authentication/register_screen.dart';
 import 'package:hifarm/views/screens/features/home/feed/add_new_post.dart';
+import 'package:hifarm/views/screens/features/home/feed/add_post_location.dart';
 import 'package:hifarm/views/screens/features/home/feed/post_details.dart';
 import 'package:hifarm/views/screens/features/home/home.dart';
 import 'package:get/get.dart';
@@ -79,6 +80,10 @@ class MyApp extends StatelessWidget {
           name: postDetails,
           page: () => const PostDetails(),
         ),
+        GetPage(
+          name: addPostLocation,
+          page: () => const AddPostLocation(),
+        )
       ],
     );
   }

@@ -14,6 +14,6 @@ class Picture extends Model
         'updated_at',
     ];
     protected $fillable = [
-        "url"
+        "url",
     ];
 }

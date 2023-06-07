@@ -12,7 +12,8 @@ use PHPUnit\Exception;
 
 class PesananController extends Controller
 {
-    public function get(){
+    public function get()
+    {
         $pesanans = Pesanan::with(["detailPesanan", "alamat"])->where("user_id", Auth::user()->getAuthIdentifier())->get();
         return $this->response_success($pesanans);
     }

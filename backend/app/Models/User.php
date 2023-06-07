@@ -17,7 +17,7 @@ class User extends Authenticatable implements JWTSubject
      * The attributes that are mass assignable.
      *
      * @var array<int, string>
-     */public function getJWTIdentifier()
+     */ public function getJWTIdentifier()
     {
         return $this->getKey();
     }

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hifarm/constants/appcolor.dart';
+import 'package:hifarm/controllers/feedcontroller.dart';
 import 'package:hifarm/views/widgets/post_comment.dart';
 import 'package:hifarm/views/widgets/rounded_top_padding.dart';
 
@@ -9,6 +10,9 @@ class PostDetails extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final int id = Get.arguments;
+    final FeedController feedController = Get.find();
+    final data = feedController.list.firstWhere((element) => element.id == id);
     return Scaffold(
       body: Stack(
         children: [
@@ -37,6 +41,7 @@ class PostDetails extends StatelessWidget {
                       color: Colors.white,
                       padding: const EdgeInsets.only(left: 20, right: 20),
                       child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -51,17 +56,18 @@ class PostDetails extends StatelessWidget {
                                   const SizedBox(
                                     width: 10,
                                   ),
-                                  const Text('Rahel Jessy'),
+                                  Text(data.user.name),
                                 ],
                               ),
                               const Icon(Icons.more_vert_rounded)
                             ],
                           ),
                           const SizedBox(
-                            height: 5,
+                            height: 10,
                           ),
-                          const Text(
-                              'Infonya lur baru nanem cabe, semoga bisa berbuah lebat ya'),
+                          Text(
+                            data.description,
+                          ),
                           const SizedBox(
                             height: 10,
                           ),
@@ -69,7 +75,14 @@ class PostDetails extends StatelessWidget {
                       ),
                     ),
                     SizedBox(
-                      child: Image.asset('assets/home_images/image 1.png'),
+                      height: MediaQuery.of(context).size.width,
+                      child: PageView.builder(
+                        itemBuilder: (context, index) => Image.network(
+                          data.pics[0],
+                          fit: BoxFit.cover,
+                        ),
+                        itemCount: 10,
+                      ),
                     ),
                     const SizedBox(
                       height: 20,
