@@ -37,7 +37,8 @@ class UserController extends Controller
             }
             $profile->save();
             DB::commit();
-            return $this->response_success(["message" => "updated", "id" => Auth::user()->getAuthIdentifier()]);
+            $profile = User::with(["pic"])->find(Auth::user()->getAuthIdentifier());
+            return $this->response_success(["message" => "updated", "data" => $profile]);
         }catch (Exception $e){
             DB::rollback();
             return $this->response_error(["error" => $e->getMessage()], 500);

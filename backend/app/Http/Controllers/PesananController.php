@@ -48,7 +48,8 @@ class PesananController extends Controller
                 $item_n->save();
             }
             DB::commit();
-            return $this->response_success(["message" => "ordered", "id" => $pesanan->id]);
+            $pesanan = Pesanan::with(["detailPesanan", "alamat"])->find($pesanan->id);
+            return $this->response_success(["message" => "created", "data" => $pesanan]);
         } catch (Exception $e) {
             DB::rollBack();
             return $this->response_error(["error" => $e->getMessage()], 500);
@@ -70,6 +71,6 @@ class PesananController extends Controller
         $data["user_id"] = Auth::user()->getAuthIdentifier();
         $alamat = new Alamat($data);
         $alamat->save();
-        return $this->response_success(["message" => "created", "id" => $alamat->id]);
+        return $this->response_success(["message" => "created", "data" => $alamat]);
     }
 }

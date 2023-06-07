@@ -50,7 +50,8 @@ class ProdukController extends Controller
             $produk = new Produk($data);
             $produk->save();
             DB::commit();
-            return $this->response_success(["message" => "created", "id" => $produk->id]);
+            $produk = Produk::with(["user", "pic"])->find($produk->id);
+            return $this->response_success(["message" => "created", "data" => $produk]);
         } catch (Exception $e) {
             DB::rollBack();
             return $this->response_error(["error" => $e->getMessage()], 500);
@@ -86,7 +87,8 @@ class ProdukController extends Controller
             }
             $produk->save();
             DB::commit();
-            return $this->response_success(["message" => "updated", "id" => $produk->id]);
+            $produk = Produk::with(["user", "pic"])->find($produk->id);
+            return $this->response_success(["message" => "updated", "data" => $produk]);
         } catch (Exception $e) {
             DB::rollBack();
             return $this->response_error(["error" => $e->getMessage()], 500);
