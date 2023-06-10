@@ -46,7 +46,8 @@ class BeritaController extends Controller
             $berita = new Berita($data);
             $berita->save();
             DB::commit();
-            return $this->response_success(["message" => "created", "id" => $berita->id]);
+            $berita = Berita::with("pic")->find($berita->id);
+            return $this->response_success(["message" => "created", "data" => $berita]);
         } catch (Exception $e) {
             DB::rollBack();
             return $this->response_error(["error" => $e->getMessage()], 500);

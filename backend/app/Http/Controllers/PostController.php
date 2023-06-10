@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Picture;
 use App\Models\Post;
+use App\Models\PostComment;
 use App\Models\PostPicture;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -53,7 +54,8 @@ class PostController extends Controller
                 $postpic->save();
             }
             DB::commit();
-            return $this->response_success(["message" => "posted", "id" => $post->id]);
+            $post = Post::with(["pics", "user"])->find($post->id);
+            return $this->response_success(["message" => "created", "data" => $post]);
         } catch (Exception $e) {
             DB::rollBack();
             return $this->response_error(["error" => $e->getMessage()], 500);
@@ -89,7 +91,8 @@ class PostController extends Controller
                         $postpic->save();
                     }
                     DB::commit();
-                    return $this->response_success(["message" => "updated", "id" => $post->id]);
+                    $post = Post::with(["pics", "user"])->find($post->id);
+                    return $this->response_success(["message" => "updated", "data" => $post]);
                 } catch (Exception $e) {
                     DB::rollBack();
                     return $this->response_error(["error" => $e->getMessage()], 500);
@@ -112,6 +115,41 @@ class PostController extends Controller
             }
             return $this->response_unauthorized();
         } else {
+            return $this->response_notfound();
+        }
+    }
+
+    public function postComment($postId, Request $request)
+    {
+        $validation = Validator::make($request->all(), [
+            "comment" => "required"
+        ]);
+        if ($validation->fails()) {
+            return $this->response_badrequest($validation->errors());
+        }
+        $post = Post::find($postId);
+        if ($post) {
+            try {
+                $comment = new PostComment([
+                    "user_id" => Auth::user()->getAuthIdentifier(),
+                    "post_id" => $post->id,
+                    "comment" => $validation->validated()["comment"]
+                ]);
+                $comment->save();
+                return $this->response_success(["message" => "created", "data" => $comment]);
+            } catch (Exception $e) {
+                return $this->response_error(["errors" => $e->getMessage()], 500);
+            }
+        } else {
+            return $this->response_notfound();
+        }
+    }
+
+    public function getComment($postId){
+        $post = Post::find($postId);
+        if($post){
+            return $this->response_success($post->comments);
+        }else{
             return $this->response_notfound();
         }
     }
