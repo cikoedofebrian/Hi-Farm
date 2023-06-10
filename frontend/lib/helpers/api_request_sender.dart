@@ -12,6 +12,7 @@ class ApiRequestSender {
   ) async {
     final AuthController authController = Get.find();
     final Uri parsedUrl = Uri.parse(url);
+    // print('Bearer ${authController.token}');
     late final dynamic result;
     switch (method) {
       case ApiMethod.get:
@@ -21,7 +22,15 @@ class ApiRequestSender {
       case ApiMethod.delete:
         return null;
       case ApiMethod.post:
-        result = await http.post(parsedUrl, body: body);
+        result = await http.post(
+          parsedUrl,
+          body: jsonEncode(body),
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ${authController.token}',
+          },
+        );
+
         break;
       case ApiMethod.put:
         return null;

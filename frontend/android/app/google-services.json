@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "759541282889",
+    "project_id": "hi-farm-b1155",
+    "storage_bucket": "hi-farm-b1155.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:759541282889:android:8ea44a18d2f06e4aace798",
+        "android_client_info": {
+          "package_name": "com.example.hifarm"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBbWOhemYOD7Kit9HTCuqDsKEx01AM2tf8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

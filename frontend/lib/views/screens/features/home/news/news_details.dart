@@ -39,18 +39,18 @@ class NewsDetails extends StatelessWidget {
               child: Column(
                 children: [
                   Text(
-                    data.title,
+                    data.judul,
                     style: Theme.of(context).textTheme.titleMedium,
                   ),
                   const SizedBox(
                     height: 20,
                   ),
-                  Image.asset(data.image),
+                  Image.network(data.url),
                   const SizedBox(
                     height: 20,
                   ),
                   Text(
-                    data.body,
+                    data.description,
                     textAlign: TextAlign.justify,
                   ),
                   const SizedBox(

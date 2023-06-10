@@ -166,7 +166,6 @@ class AddPostLocation extends StatefulWidget {
 class _AddPostLocationState extends State<AddPostLocation> {
   final Completer<GoogleMapController> _googleMapController = Completer();
   CameraPosition? _cameraPosition;
-  // late LatLng _defaultLatLng;
   late LatLng _draggedLatlng;
   String _draggedAddress = "";
   late final Future future;

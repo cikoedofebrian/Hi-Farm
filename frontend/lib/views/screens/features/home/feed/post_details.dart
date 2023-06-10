@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hifarm/constants/appcolor.dart';
-import 'package:hifarm/controllers/feedcontroller.dart';
+import 'package:hifarm/controllers/feed_controller.dart';
 import 'package:hifarm/views/widgets/post_comment.dart';
 import 'package:hifarm/views/widgets/rounded_top_padding.dart';
 

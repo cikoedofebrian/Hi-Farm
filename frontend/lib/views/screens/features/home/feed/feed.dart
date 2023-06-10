@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hifarm/constants/appcolor.dart';
 import 'package:hifarm/constants/image_string.dart';
-import 'package:hifarm/controllers/feedcontroller.dart';
+import 'package:hifarm/controllers/feed_controller.dart';
+import 'package:hifarm/views/widgets/custom_loading_indicator.dart';
 import 'package:hifarm/views/widgets/feed_post.dart';
 import 'package:hifarm/views/widgets/scrollable_rounded_page.dart';
 
@@ -17,7 +18,7 @@ class Feed extends StatelessWidget {
     }
     return Obx(
       () => feedController.isLoading
-          ? const Center(child: CircularProgressIndicator())
+          ? const CustomLoadingIndicator()
           : ScrollableRoundedPage(
               topContent: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -80,6 +81,7 @@ class Feed extends StatelessWidget {
               body: Container(
                 color: Colors.white,
                 child: ListView.builder(
+                  padding: const EdgeInsets.only(bottom: 100),
                   shrinkWrap: true,
                   itemBuilder: (context, index) =>
                       FeedPost(data: feedController.list[index]),
