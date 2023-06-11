@@ -143,6 +143,7 @@ class PostController extends Controller
                     "comment" => $validation->validated()["comment"]
                 ]);
                 $comment->save();
+                $comment = PostComment::with(["user"=>["pic"]])->find($comment->id);
                 return $this->response_success(["message" => "created", "data" => $comment]);
             } catch (Exception $e) {
                 return $this->response_error(["errors" => $e->getMessage()], 500);
@@ -153,9 +154,9 @@ class PostController extends Controller
     }
 
     public function getComment($postId){
-        $post = Post::find($postId);
-        if($post){
-            return $this->response_success($post->comments);
+        $comments = PostComment::with(["user"=>["pic"]])->where("post_id", $postId)->get();
+        if($comments){
+            return $this->response_success($comments);
         }else{
             return $this->response_notfound();
         }
