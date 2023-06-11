@@ -64,4 +64,7 @@ class User extends Authenticatable implements JWTSubject
     public function pic(){
         return $this->belongsTo(Picture::class, "picture_id");
     }
+    public function shop() {
+        return $this->hasOne(Shop::class, "user_id");
+    }
 }

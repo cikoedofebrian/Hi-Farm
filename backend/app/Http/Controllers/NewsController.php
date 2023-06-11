@@ -2,26 +2,26 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Berita;
+use App\Models\News;
 use App\Models\Picture;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 use PHPUnit\Exception;
 
-class BeritaController extends Controller
+class NewsController extends Controller
 {
     public function get()
     {
-        $beritas = Berita::with(["pic"])->selectRaw("id, judul, SUBSTR(description, 1, 100) as description, picture_id")->get();
-        return $this->response_success($beritas);
+        $news = News::with(["pic"])->orderBy("created_at", "desc")->get();
+        return $this->response_success($news);
     }
 
     public function getOne($id)
     {
-        $berita = Berita::with(["pic"])->find($id);
-        if ($berita) {
-            return $this->response_success($berita);
+        $news = News::with(["pic"])->find($id);
+        if ($news) {
+            return $this->response_success($news);
         }
         return $this->response_notfound();
     }
@@ -29,7 +29,7 @@ class BeritaController extends Controller
     public function create(Request $request)
     {
         $validation = Validator::make($request->all(), [
-            "judul" => "required",
+            "title" => "required",
             "description" => "required",
             "pic" => "required"
         ]);
@@ -41,13 +41,13 @@ class BeritaController extends Controller
             $data = $validation->safe()->only("pic");
             $picture = new Picture(["url" => $data["pic"]]);
             $picture->save();
-            $data = $validation->safe()->only(["judul", "description"]);
+            $data = $validation->safe()->only(["title", "description"]);
             $data["picture_id"] = $picture->id;
-            $berita = new Berita($data);
-            $berita->save();
+            $news = new News($data);
+            $news->save();
             DB::commit();
-            $berita = Berita::with("pic")->find($berita->id);
-            return $this->response_success(["message" => "created", "data" => $berita]);
+            $news = News::with("pic")->find($news->id);
+            return $this->response_success(["message" => "created", "data" => $news]);
         } catch (Exception $e) {
             DB::rollBack();
             return $this->response_error(["error" => $e->getMessage()], 500);

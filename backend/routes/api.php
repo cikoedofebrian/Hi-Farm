@@ -1,7 +1,11 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\NewsController;
+use App\Http\Controllers\OrderController;
 use App\Http\Controllers\PostController;
+use App\Http\Controllers\ProductController;
+use App\Http\Controllers\ShopController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
@@ -25,15 +29,25 @@ Route::get("/unauthorized", function () {
 Route::middleware("auth:api")->group(function () {
     Route::prefix("/profile")->group(function () {
         Route::get("/me", [UserController::class, "getMe"]);
+        Route::get("/{id}", [UserController::class, "getByID"]);
         Route::put("/", [UserController::class, "edit"]);
     });
 
     Route::prefix("/post")->group(function () {
         Route::get("/", [PostController::class, "get"]);
         Route::get("/{id}", [PostController::class, "getOne"]);
+        Route::get("/k/{keyword}", [PostController::class, "getByKeyword"]);
         Route::post("/", [PostController::class, "create"]);
         Route::delete("/{id}", [PostController::class, "delete"]);
         Route::put("/{id}", [PostController::class, "edit"]);
+    });
+
+    Route::prefix("/shop")->group(function () {
+       Route::get("/", [ShopController::class, "getAll"]);
+       Route::get("/{id}", [ShopController::class, "getByID"]);
+       Route::get("/user/{userId}", [ShopController::class, "getByUserID"]);
+       Route::post("/", [ShopController::class, "create"]);
+       Route::put("/", [ShopController::class, "edit"]);
     });
 
     Route::prefix("/comment")->group(function () {
@@ -41,35 +55,32 @@ Route::middleware("auth:api")->group(function () {
        Route::post("/{postId}", [PostController::class, "postComment"]);
     });
 
-    Route::prefix("/berita")->group(function () {
-        Route::get("/", [\App\Http\Controllers\BeritaController::class, "get"]);
-        Route::get("/{id}", [\App\Http\Controllers\BeritaController::class, "getOne"]);
-        Route::post("/", [\App\Http\Controllers\BeritaController::class, "create"]);
+    Route::prefix("/news")->group(function () {
+        Route::get("/", [NewsController::class, "get"]);
+        Route::get("/{id}", [NewsController::class, "getOne"]);
+        Route::post("/", [NewsController::class, "create"]);
     });
 
-    Route::prefix("/produk")->group(function () {
-        Route::get("/", [\App\Http\Controllers\ProdukController::class, "get"]);
-        Route::get("/{id}", [\App\Http\Controllers\ProdukController::class, "getOne"]);
-        Route::post("/", [\App\Http\Controllers\ProdukController::class, "create"]);
-        Route::put("/{id}", [\App\Http\Controllers\ProdukController::class, "edit"]);
-        Route::delete("/{id}", [\App\Http\Controllers\ProdukController::class, "delete"]);
+    Route::prefix("/product")->group(function () {
+        Route::get("/", [ProductController::class, "get"]);
+        Route::get("/{id}", [ProductController::class, "getOne"]);
+        Route::get("/k/{keyword}", [ProductController::class, "getByKeyword"]);
+        Route::post("/", [ProductController::class, "create"]);
+        Route::put("/{id}", [ProductController::class, "edit"]);
+        Route::delete("/{id}", [ProductController::class, "delete"]);
     });
 
     Route::prefix("/history")->group(function () {
-        Route::prefix("/produk")->group(function () {
-            Route::get("/", [\App\Http\Controllers\ProdukController::class, "getHistory"]);
-            Route::get("/{id}", [\App\Http\Controllers\ProdukController::class, "getHistoryOne"]);
+        Route::prefix("/product")->group(function () {
+            Route::get("/", [ProductController::class, "getHistory"]);
+            Route::get("/{id}", [ProductController::class, "getHistoryOne"]);
         });
     });
 
-    Route::prefix("/alamat")->group(function () {
-        Route::get("/", [\App\Http\Controllers\PesananController::class, "getAlamat"]);
-        Route::post("/", [\App\Http\Controllers\PesananController::class, "createAlamat"]);
-    });
-
-    Route::prefix("/pesanan")->group(function () {
-        Route::get("/", [\App\Http\Controllers\PesananController::class, "get"]);
-        Route::get("/{id}", [\App\Http\Controllers\PesananController::class, "getOne"]);
-        Route::post("/", [\App\Http\Controllers\PesananController::class, "create"]);
+    Route::prefix("/order")->group(function () {
+        Route::get("/", [OrderController::class, "get"]);
+        Route::get("/shop", [OrderController::class, "getShop"]);
+        Route::get("/{id}", [OrderController::class, "getOne"]);
+        Route::post("/", [OrderController::class, "create"]);
     });
 });

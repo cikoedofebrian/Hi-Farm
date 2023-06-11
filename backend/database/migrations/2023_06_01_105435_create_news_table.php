@@ -11,12 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('alamats', function (Blueprint $table) {
+        Schema::create('news', function (Blueprint $table) {
             $table->id();
-            $table->foreignId("user_id")->constrained();
-            $table->string("name");
-            $table->string("address");
-            $table->string("phone");
+            $table->string("title");
+            $table->text("description");
+            $table->foreignId("picture_id")->constrained();
             $table->timestamps();
         });
     }
@@ -26,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('alamats');
+        Schema::dropIfExists('beritas');
     }
 };

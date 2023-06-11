@@ -2,34 +2,42 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\HistoryBarang;
+use App\Models\DetailOrder;
+use App\Models\HistoryProduct;
 use App\Models\Picture;
-use App\Models\Produk;
+use App\Models\Product;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 use PHPUnit\Exception;
 
-class ProdukController extends Controller
+class ProductController extends Controller
 {
     public function get()
     {
-        $produks = Produk::with(["user", "pic"])->get();
-        return $this->response_success($produks);
+        $products = Product::with(["shop", "pic"])->get();
+        return $this->response_success($products);
     }
 
     public function getOne($id)
     {
-        $produk = Produk::with(["user", "pic"])->find($id);
-        if ($produk) {
-            return $this->response_success($produk);
+        $product = Product::with(["shop", "pic"])->find($id);
+        if ($product) {
+            return $this->response_success($product);
         }
         return $this->response_notfound();
+    }
+    public function getByKeyword($keyword) {
+        $product = Product::with(["shop", "pic"])->where("name", "like", "%$keyword%")->get();
+        return $this->response_success($product);
     }
 
     public function create(Request $request)
     {
+        if(Auth::user()->shop == null) {
+            return $this->response_error(["error"=>"don't have shop"], 403);
+        }
         $validation = Validator::make($request->all(), [
             "name" => "required",
             "price" => "required",
@@ -45,13 +53,13 @@ class ProdukController extends Controller
             $picture = new Picture(["url" => $data["pic"]]);
             $picture->save();
             $data = $validation->safe()->only(["name", "price", "city"]);
-            $data["user_id"] = Auth::user()->getAuthIdentifier();
+            $data["shop_id"] = Auth::user()->shop->id;
             $data["picture_id"] = $picture->id;
-            $produk = new Produk($data);
-            $produk->save();
+            $product = new Product($data);
+            $product->save();
             DB::commit();
-            $produk = Produk::with(["user", "pic"])->find($produk->id);
-            return $this->response_success(["message" => "created", "data" => $produk]);
+            $product = Product::with(["shop"=>["user"], "pic"])->find($product->id);
+            return $this->response_success(["message" => "created", "data" => $product]);
         } catch (Exception $e) {
             DB::rollBack();
             return $this->response_error(["error" => $e->getMessage()], 500);
@@ -71,24 +79,24 @@ class ProdukController extends Controller
         }
         DB::beginTransaction();
         try {
-            $produk = Produk::find($id);
-            if (Auth::user()->getAuthIdentifier() !== $produk->user_id) {
+            $product = Product::find($id);
+            if (Auth::user()->shop->id !== $product->shop_id) {
                 return $this->response_unauthorized();
             }
             $data = $validation->safe()->only(["name", "price", "city"]);
-            $produk->name = $data["name"];
-            $produk->price = $data["price"];
-            $produk->city = $data["city"];
+            $product->name = $data["name"];
+            $product->price = $data["price"];
+            $product->city = $data["city"];
             if ($request->input("pic")) {
                 $data = $validation->safe()->only("pic");
                 $picture = new Picture(["url" => $data["pic"]]);
                 $picture->save();
-                $produk->picture_id = $picture->id;
+                $product->picture_id = $picture->id;
             }
-            $produk->save();
+            $product->save();
             DB::commit();
-            $produk = Produk::with(["user", "pic"])->find($produk->id);
-            return $this->response_success(["message" => "updated", "data" => $produk]);
+            $product = Product::with(["shop"=>["user"], "pic"])->find($product->id);
+            return $this->response_success(["message" => "updated", "data" => $product]);
         } catch (Exception $e) {
             DB::rollBack();
             return $this->response_error(["error" => $e->getMessage()], 500);
@@ -97,33 +105,34 @@ class ProdukController extends Controller
 
     public function delete($id)
     {
-        $produk = Produk::find($id);
-        if ($produk) {
-            if (Auth::user()->getAuthIdentifier() !== $produk->user_id) {
+        $product = Product::find($id);
+        if ($product) {
+            if (Auth::user()->shop->id !== $product->shop_id) {
                 return $this->response_unauthorized();
             }
-            $history = new HistoryBarang([
-                "name" => $produk->name,
-                "price" => $produk->price,
-                "city" => $produk->city,
-                "user_id" => $produk->user_id,
-                "picture_id" => $produk->picture_id
+            $history = new HistoryProduct([
+                "name" => $product->name,
+                "price" => $product->price,
+                "city" => $product->city,
+                "shop_id" => $product->shop_id,
+                "picture_id" => $product->picture_id
             ]);
             $history->save();
-            $produk->delete();
+            DetailOrder::where("product_id", $product->id)->update(["history_product_id"=>$history->id, "product_id"=>null]);
+            $product->delete();
             return $this->response_success(["message" => "deleted", "history_id" => $history->id]);
         }
         return $this->response_notfound();
     }
 
     public function getHistory(){
-        $histories = HistoryBarang::where("user_id", Auth::user()->getAuthIdentifier())->with(["pic", "user"])->get();
+        $histories = HistoryProduct::where("shop_id", Auth::user()->shop->id)->with(["pic", "shop"])->get();
         return $this->response_success($histories);
     }
 
     public function getHistoryOne($id)
     {
-        $history = HistoryBarang::where("user_id", Auth::user()->getAuthIdentifier())->with(["user", "pic"])->find($id);
+        $history = HistoryProduct::where("shop_id", Auth::user()->shop->id)->with(["shop", "pic"])->find($id);
         if ($history) {
             return $this->response_success($history);
         }

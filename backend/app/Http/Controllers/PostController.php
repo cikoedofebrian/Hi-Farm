@@ -16,17 +16,22 @@ class PostController extends Controller
 {
     public function get()
     {
-        $posts = Post::with(["pics", "user"])->get();
+        $posts = Post::with(["pics", "user"=>["pic"], "comments"=>["user"=>["pic"]]])->get();
         return $this->response_success($posts);
     }
 
     public function getOne($id)
     {
-        $post = Post::with(["pics", "user"])->find($id);
+        $post = Post::with(["pics", "user"=>["pic"], "comments"=>["user"=>["pic"]]])->find($id);
         if ($post) {
             return $this->response_success($post);
         }
         return $this->response_notfound();
+    }
+    public function getByKeyword($keyword)
+    {
+        $posts = Post::with(["pics", "user"=>["pic"], "comments"=>["user"=>["pic"]]])->where("description", "like", "%$keyword%")->get();
+        return $this->response_success($posts);
     }
 
     public function create(Request $request)
@@ -54,7 +59,7 @@ class PostController extends Controller
                 $postpic->save();
             }
             DB::commit();
-            $post = Post::with(["pics", "user"])->find($post->id);
+            $post = Post::with(["pics", "user"=>["pic"]])->find($post->id);
             return $this->response_success(["message" => "created", "data" => $post]);
         } catch (Exception $e) {
             DB::rollBack();
@@ -91,7 +96,7 @@ class PostController extends Controller
                         $postpic->save();
                     }
                     DB::commit();
-                    $post = Post::with(["pics", "user"])->find($post->id);
+                    $post = Post::with(["pics", "user"=>["pic"]])->find($post->id);
                     return $this->response_success(["message" => "updated", "data" => $post]);
                 } catch (Exception $e) {
                     DB::rollBack();
@@ -109,6 +114,8 @@ class PostController extends Controller
     {
         $post = Post::find($id);
         if ($post) {
+            PostPicture::where("post_id", $post->id)->delete();
+            PostComment::where("post_id", $post->id)->delete();
             if ($post->user_id === Auth::id()) {
                 $post->delete();
                 return $this->response_success(["message" => "deleted"]);
