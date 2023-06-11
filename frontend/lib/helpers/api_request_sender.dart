@@ -12,7 +12,8 @@ class ApiRequestSender {
   ) async {
     final AuthController authController = Get.find();
     final Uri parsedUrl = Uri.parse(url);
-    // print('Bearer ${authController.token}');
+    print(authController.token);
+    print('Bearer ${authController.token}');
     late final dynamic result;
     switch (method) {
       case ApiMethod.get:
@@ -30,10 +31,17 @@ class ApiRequestSender {
             'Authorization': 'Bearer ${authController.token}',
           },
         );
-
         break;
       case ApiMethod.put:
-        return null;
+        result = await http.put(
+          parsedUrl,
+          body: jsonEncode(body),
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ${authController.token}',
+          },
+        );
+        break;
     }
     final decodedBody = jsonDecode(result.body);
     return decodedBody;

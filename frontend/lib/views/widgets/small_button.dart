@@ -6,10 +6,12 @@ class SmallButton extends StatelessWidget {
     super.key,
     required this.function,
     required this.text,
+    this.color,
   });
 
   final String text;
   final Function function;
+  final Color? color;
 
   @override
   Widget build(BuildContext context) {
@@ -17,7 +19,7 @@ class SmallButton extends StatelessWidget {
       onTap: () => function(),
       child: Container(
         decoration: BoxDecoration(
-          color: AppColor.tertiary,
+          color: color ?? AppColor.tertiary,
           borderRadius: BorderRadius.circular(10),
         ),
         padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 20),

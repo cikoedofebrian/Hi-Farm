@@ -23,6 +23,7 @@ class FeedController extends BaseController {
 
   Future<void> fetchPostData() async {
     try {
+      _list.value = [];
       final result = await ApiRequestSender.sendHttpRequest(
           ApiMethod.get, ApiLink.getPosts, null);
 
@@ -80,7 +81,8 @@ class FeedController extends BaseController {
       'pics': imageUrlList,
     });
 
-    fetchPostData();
+    await fetchPostData();
+    Get.back();
   }
 }
 

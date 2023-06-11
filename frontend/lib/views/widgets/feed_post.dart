@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:hifarm/constants/image_string.dart';
 import 'package:hifarm/constants/routes.dart';
 import 'package:hifarm/models/data/post_model.dart';
 
@@ -34,10 +35,11 @@ class FeedPost extends StatelessWidget {
                     children: [
                       Row(
                         children: [
-                          SizedBox(
-                            width: 30,
-                            child: Image.asset(
-                                "assets/home_images/Rectangle 160.png"),
+                          CircleAvatar(
+                            backgroundImage: data.user.pic != null
+                                ? NetworkImage(data.user.pic!)
+                                : const AssetImage(emptyProfile)
+                                    as ImageProvider,
                           ),
                           const SizedBox(
                             width: 10,

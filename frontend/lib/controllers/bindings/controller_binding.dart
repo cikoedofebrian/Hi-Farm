@@ -3,6 +3,7 @@ import 'package:hifarm/controllers/auth_controller.dart';
 import 'package:hifarm/controllers/feed_controller.dart';
 import 'package:hifarm/controllers/home_controller.dart';
 import 'package:hifarm/controllers/news_controller.dart';
+import 'package:hifarm/controllers/user_controller.dart';
 
 class ControllerBinding implements Bindings {
   @override
@@ -11,5 +12,6 @@ class ControllerBinding implements Bindings {
     Get.put(HomeController());
     Get.put(FeedController());
     Get.put(NewsController());
+    Get.put(UserController());
   }
 }

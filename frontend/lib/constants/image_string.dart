@@ -8,3 +8,4 @@ const String auth = '$assets/auth_images';
 const String authImage1 = '$auth/authImage1.png';
 const String homeImages = '$assets/home_images';
 const String homeImage1 = '$homeImages/homeImage1.png';
+const String emptyProfile = '$homeImages/empty_pic.jpg';
