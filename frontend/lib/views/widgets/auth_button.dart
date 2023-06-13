@@ -2,7 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:hifarm/constants/appcolor.dart';
 
 class AuthButton extends StatelessWidget {
-  const AuthButton({super.key, required this.authFunction, required this.name});
+  const AuthButton({
+    super.key,
+    required this.authFunction,
+    required this.name,
+  });
   final Function authFunction;
   final String name;
 

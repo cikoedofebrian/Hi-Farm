@@ -63,9 +63,9 @@ class FeedPost extends StatelessWidget {
             SizedBox(
               height: size.width,
               child: PageView.builder(
-                itemCount: 10,
+                itemCount: data.pics.length,
                 itemBuilder: (context, index) => Image.network(
-                  data.pics[0],
+                  data.pics[index],
                   fit: BoxFit.cover,
                 ),
               ),

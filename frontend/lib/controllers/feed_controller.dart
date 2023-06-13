@@ -7,6 +7,7 @@ import 'package:hifarm/constants/api_method.dart';
 import 'package:hifarm/controllers/auth_controller.dart';
 import 'package:hifarm/controllers/base/base_controller.dart';
 import 'package:hifarm/helpers/api_request_sender.dart';
+import 'package:hifarm/models/data/comment_model.dart';
 import 'package:hifarm/models/data/post_model.dart';
 import 'package:hifarm/views/widgets/custom_snack_bar.dart';
 
@@ -19,6 +20,13 @@ class FeedController extends BaseController {
 
   void changeUploadLoading(bool value) {
     _uploadLoading.value = value;
+  }
+
+  final Rx<String> _lastSearched = ''.obs;
+  String get lastSearched => _lastSearched.value;
+
+  void changeLastSearch(String text) {
+    _lastSearched.value = text;
   }
 
   Future<void> fetchPostData() async {
@@ -37,6 +45,50 @@ class FeedController extends BaseController {
       final AuthController authController = Get.find();
       authController.logout();
     }
+  }
+
+  Future<void> searchPost(String searchText) async {
+    if (searchText == lastSearched) {
+      return;
+    }
+    changeLoading(true);
+    if (searchText.isEmpty) {
+      fetchPostData();
+    } else {
+      final searchUrl = "${ApiLink.searchPosts}/$searchText";
+      List<MPost> temporaryList = [];
+      final searchResult = await ApiRequestSender.sendHttpRequest(
+          ApiMethod.get, searchUrl, null);
+      for (var i in searchResult) {
+        temporaryList.add(MPost.fromJson(i));
+      }
+      _list.value = temporaryList;
+      _list.refresh();
+      changeLoading(false);
+    }
+    changeLastSearch(searchText);
+  }
+
+  Future<List<MComment>> fetchCommentData(int id) async {
+    try {
+      final commentUrl = "${ApiLink.getComment}/$id";
+      final getData = await ApiRequestSender.sendHttpRequest(
+          ApiMethod.get, commentUrl, null);
+      List<MComment> data = [];
+      for (var i in getData) {
+        data.add(MComment.fromJson(i));
+      }
+      return data;
+    } catch (err) {
+      return [];
+    }
+  }
+
+  Future<MComment> addNewComment(String comment, int id) async {
+    final commentUrl = "${ApiLink.getComment}/$id";
+    final sendComment = await ApiRequestSender.sendHttpRequest(
+        ApiMethod.post, commentUrl, {'comment': comment});
+    return MComment.fromJson(sendComment['data']);
   }
 
   Future<void> addNewPost(
@@ -85,5 +137,3 @@ class FeedController extends BaseController {
     Get.back();
   }
 }
-
-Future<void> fetchCommentData(int id) async {}

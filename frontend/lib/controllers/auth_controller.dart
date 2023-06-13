@@ -3,6 +3,10 @@ import 'package:hifarm/constants/api_link.dart';
 import 'package:hifarm/constants/api_method.dart';
 import 'package:hifarm/constants/appcolor.dart';
 import 'package:hifarm/constants/routes.dart';
+import 'package:hifarm/controllers/feed_controller.dart';
+import 'package:hifarm/controllers/home_controller.dart';
+import 'package:hifarm/controllers/shop_controller.dart';
+import 'package:hifarm/controllers/user_controller.dart';
 import 'package:hifarm/helpers/api_request_sender.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -105,6 +109,14 @@ class AuthController extends GetxController {
 
   Future<void> logout() async {
     _token.value = '';
+    final UserController userController = Get.find();
+    final FeedController feedController = Get.find();
+    final ShopController shopController = Get.find();
+    final HomeController homeController = Get.find();
+    homeController.changeIndex(0);
+    userController.changeLoading(true);
+    feedController.changeLoading(true);
+    shopController.changeLoading(true);
     final prefs = await SharedPreferences.getInstance();
     prefs.remove('token');
     prefs.clear();

@@ -1,8 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 class PostComment extends StatelessWidget {
-  const PostComment({super.key});
+  const PostComment({
+    super.key,
+    required this.comment,
+    required this.date,
+    required this.image,
+    required this.name,
+  });
 
+  final String name;
+  final String? image;
+  final DateTime date;
+  final String comment;
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -21,21 +32,23 @@ class PostComment extends StatelessWidget {
           children: [
             Row(
               children: [
-                SizedBox(
-                  width: 30,
-                  child: Image.asset('assets/home_images/Rectangle 160.png'),
+                CircleAvatar(
+                  backgroundImage: image != null
+                      ? NetworkImage(image!)
+                      : const AssetImage('assets/home_images/empty_pic.jpg')
+                          as ImageProvider,
                 ),
                 const SizedBox(
                   width: 10,
                 ),
                 Text(
-                  'Ciko',
+                  name,
                   style: Theme.of(context).textTheme.titleSmall,
                 ),
               ],
             ),
             Text(
-              '23 Mei 2023',
+              DateFormat('dd-MM-yyyy').format(date),
               style: Theme.of(context)
                   .textTheme
                   .labelSmall!
@@ -46,7 +59,7 @@ class PostComment extends StatelessWidget {
         const SizedBox(
           height: 10,
         ),
-        const Text('Setuju banget !'),
+        Text(comment),
       ]),
     );
   }

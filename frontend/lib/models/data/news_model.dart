@@ -13,7 +13,7 @@ class MNews {
 
   factory MNews.fromJson(Map<String, dynamic> json) => MNews(
         id: json["id"],
-        judul: json["judul"],
+        judul: json["title"],
         description: json["description"],
         url: json["pic"]["url"],
       );

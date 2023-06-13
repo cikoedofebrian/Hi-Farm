@@ -3,10 +3,10 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:hifarm/constants/routes.dart';
 import 'package:hifarm/controllers/feed_controller.dart';
 import 'package:hifarm/views/widgets/image_picker.dart';
-import 'package:image_picker/image_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hifarm/constants/appcolor.dart';
+import 'package:hifarm/views/widgets/photo_container.dart';
 import 'package:hifarm/views/widgets/rounded_top_padding.dart';
 
 class AddNewPost extends StatefulWidget {
@@ -147,7 +147,7 @@ class _AddNewPostState extends State<AddNewPost> {
                                   (index) => getImageView(_photoList[index]),
                                 ),
                                 if (_photoList.length < 5)
-                                  addPhotoContainer(context)
+                                  addPhotoContainer(context, _imagePicker)
                               ],
                             ),
                           ),
@@ -303,34 +303,6 @@ class _AddNewPostState extends State<AddNewPost> {
               ),
             ],
           ),
-        ),
-      ),
-    );
-  }
-
-  InkWell addPhotoContainer(BuildContext context) {
-    return InkWell(
-      onTap: _imagePicker,
-      child: Container(
-        color: Colors.grey,
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            const Icon(
-              Icons.photo,
-              color: Colors.white,
-              size: 40,
-            ),
-            const SizedBox(
-              height: 10,
-            ),
-            Text(
-              'Tambahkan Foto',
-              style: Theme.of(context).textTheme.titleSmall!.copyWith(
-                    color: Colors.white,
-                  ),
-            )
-          ],
         ),
       ),
     );

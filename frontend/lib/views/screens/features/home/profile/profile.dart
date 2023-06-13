@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hifarm/constants/appcolor.dart';
 import 'package:hifarm/constants/image_string.dart';
+import 'package:hifarm/constants/routes.dart';
 import 'package:hifarm/controllers/auth_controller.dart';
 import 'package:hifarm/controllers/user_controller.dart';
 import 'package:hifarm/views/widgets/custom_loading_indicator.dart';
@@ -205,6 +206,38 @@ class _ProfileState extends State<Profile> {
                                     enabled: isOnEdit,
                                   ))
                             ],
+                          ),
+                          const SizedBox(
+                            height: 20,
+                          ),
+                          InkWell(
+                            onTap: () => Get.toNamed(createProduct),
+                            child: Container(
+                              decoration: BoxDecoration(
+                                border: Border.all(color: AppColor.secondary),
+                                borderRadius: BorderRadius.circular(10),
+                                color: AppColor.secondary,
+                                boxShadow: const [
+                                  BoxShadow(
+                                    offset: Offset(2, 2),
+                                    spreadRadius: 1,
+                                    color: Colors.black12,
+                                    blurRadius: 2,
+                                  )
+                                ],
+                              ),
+                              padding: const EdgeInsets.symmetric(vertical: 10),
+                              alignment: Alignment.center,
+                              child: Text(
+                                'Lihat Histori Transaksi',
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .titleMedium!
+                                    .copyWith(
+                                      color: AppColor.primary,
+                                    ),
+                              ),
+                            ),
                           ),
                         ],
                       ),
