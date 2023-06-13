@@ -65,6 +65,7 @@ Route::middleware("auth:api")->group(function () {
         Route::get("/", [ProductController::class, "get"]);
         Route::get("/{id}", [ProductController::class, "getOne"]);
         Route::get("/k/{keyword}", [ProductController::class, "getByKeyword"]);
+        Route::get("/s/{shopId}", [ProductController::class, "getByShop"]);
         Route::post("/", [ProductController::class, "create"]);
         Route::put("/{id}", [ProductController::class, "edit"]);
         Route::delete("/{id}", [ProductController::class, "delete"]);

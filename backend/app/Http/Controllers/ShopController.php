@@ -26,7 +26,8 @@ class ShopController extends Controller
             "name" => "required",
             "lt" => "required",
             "ln" => "required",
-            "address" => "required"
+            "address" => "required",
+            "description" => "required"
         ]);
         if ($validation->fails()) {
             return $this->response_badrequest($validation->errors());
@@ -46,7 +47,8 @@ class ShopController extends Controller
             "name" => "required",
             "lt" => "required",
             "ln" => "required",
-            "address" => "required"
+            "address" => "required",
+            "description" => "required"
         ]);
         if ($validation->fails()) {
             return $this->response_badrequest($validation->errors());
@@ -57,6 +59,7 @@ class ShopController extends Controller
         $shop->lt = $data["lt"];
         $shop->ln = $data["ln"];
         $shop->address = $data["address"];
+        $shop->description = $data["description"];
         $shop->save();
         return $this->response_success(["message" => "updated", "data" => $shop]);
     }

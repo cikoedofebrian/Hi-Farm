@@ -18,6 +18,7 @@ return new class extends Migration
             $table->double("lt");
             $table->double("ln");
             $table->string("address");
+            $table->text("description");
             $table->timestamps();
         });
     }

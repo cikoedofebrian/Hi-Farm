@@ -29,8 +29,12 @@ class ProductController extends Controller
         return $this->response_notfound();
     }
     public function getByKeyword($keyword) {
-        $product = Product::with(["shop", "pic"])->where("name", "like", "%$keyword%")->get();
-        return $this->response_success($product);
+        $products = Product::with(["shop", "pic"])->where("name", "like", "%$keyword%")->get();
+        return $this->response_success($products);
+    }
+    public function getByShop($shopId) {
+        $products = Product::with(["shop", "pic"])->where("shop_id", $shopId)->get();
+        return $this->response_success($products);
     }
 
     public function create(Request $request)
