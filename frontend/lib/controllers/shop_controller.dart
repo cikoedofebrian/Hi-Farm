@@ -6,6 +6,7 @@ import 'package:hifarm/constants/api_link.dart';
 import 'package:hifarm/constants/api_method.dart';
 import 'package:hifarm/controllers/base/base_controller.dart';
 import 'package:hifarm/helpers/api_request_sender.dart';
+import 'package:hifarm/models/data/adddress_model.dart';
 import 'package:hifarm/models/data/product_model.dart';
 import 'package:hifarm/models/data/shop_model.dart';
 import 'package:hifarm/models/page_data/cart_model.dart';
@@ -22,12 +23,46 @@ class ShopController extends BaseController {
   List<MCart> get cart => _cart;
   final RxList<MProduct> _productList = <MProduct>[].obs;
   List<MProduct> get productList => _productList;
+  void clearShop() {
+    _shop = null.obs;
+  }
+
+  Future<List<MAddress>> getAddress() async {
+    List<MAddress> addressList = [];
+    final getAddress = await ApiRequestSender.sendHttpRequest(
+        ApiMethod.get, ApiLink.getAddress, null);
+    for (var i in getAddress) {
+      addressList.add(MAddress.fromJson(i));
+    }
+    return addressList;
+  }
+
+  Future<void> createAddress(
+      String title, String phoneNum, LatLng? loc, String address) async {
+    if (title.isEmpty || phoneNum.isEmpty || address.isEmpty || loc == null) {
+      customSnackBar('Gagal', 'Data tidak boleh kosong!');
+      return;
+    } else if (int.tryParse(phoneNum) == null) {
+      customSnackBar('Gagal', 'Data Tidak Valid');
+      return;
+    }
+
+    await ApiRequestSender.sendHttpRequest(ApiMethod.post, ApiLink.getAddress, {
+      'title': title,
+      'address': address,
+      'lt': loc.latitude,
+      'ln': loc.longitude,
+      'phone': phoneNum,
+    });
+    Get.back(result: true);
+    customSnackBar('Berhasil', 'Alamat Berhasil Dibuat');
+  }
 
   addToCart(MProduct product) {
     final productIndex =
-        _cart.indexWhere((element) => element.shop.id == product.shop.id);
+        _cart.indexWhere((element) => element.shop.id == product.shop!.id);
     if (productIndex == -1) {
-      _cart.add(MCart(shop: product.shop, productList: [
+      _cart.add(MCart(shop: product.shop!, productList: [
         MInsideCart(product: product, quantity: 1),
       ]));
     } else {
@@ -56,7 +91,30 @@ class ShopController extends BaseController {
     return total;
   }
 
-  Future<void> createTransaction() async {
+  int getTotalCartPrice() {
+    int total = 0;
+    for (var i in _cart) {
+      for (var j in i.productList) {
+        total += j.quantity * j.product.price;
+      }
+    }
+    return total;
+  }
+
+  bool validateTransaction(MAddress? address, String payment) {
+    if (address == null || payment.isEmpty) {
+      customSnackBar('Gagal', 'Data tidak boleh kosong');
+      return false;
+    }
+    if (getTotalCartProduct() <= 0) {
+      customSnackBar('Produk yang dipilih kosong!',
+          'Tambahkan produk untuk melakukan transaksi');
+      return false;
+    }
+    return true;
+  }
+
+  Future<void> createTransaction(String payment, int addressId) async {
     try {
       for (var i in cart) {
         List<Map<String, dynamic>> productIdList = [];
@@ -66,24 +124,36 @@ class ShopController extends BaseController {
             'qty': j.quantity,
           });
         }
-        final result = await ApiRequestSender.sendHttpRequest(
+        await ApiRequestSender.sendHttpRequest(
             ApiMethod.post, ApiLink.getOrder, {
           'shop_id': i.shop.id,
-          'payment': 'BNI',
+          'payment': payment,
+          'address_id': addressId,
           'list_order': productIdList,
         });
-        print(result);
       }
       _cart.clear();
       _cart.refresh();
     } catch (err) {
-      print(err);
+      // print(err);
     }
+  }
+
+  Future<List<MProduct>> getShopProducts(int id) async {
+    List<MProduct> tempList = [];
+
+    final String url = "${ApiLink.getProducts}/s/$id";
+    final getData =
+        await ApiRequestSender.sendHttpRequest(ApiMethod.get, url, null);
+    for (var i in getData) {
+      tempList.add(MProduct.fromJson(i));
+    }
+    return tempList;
   }
 
   decreaseFromCart(MProduct product) {
     final selectedShop =
-        _cart.indexWhere((element) => element.shop.id == product.shop.id);
+        _cart.indexWhere((element) => element.shop.id == product.shop!.id);
     final selectedProduct = _cart[selectedShop]
         .productList
         .indexWhere((element) => element.product.id == product.id);
@@ -143,8 +213,13 @@ class ShopController extends BaseController {
     _cart.refresh();
   }
 
-  Future<void> createProduct(String name, String price, File? photo) async {
-    if (name.isEmpty || price.isEmpty || photo == null) {
+  Future<void> createProduct(
+    String name,
+    String price,
+    File? photo,
+    String description,
+  ) async {
+    if (name.isEmpty || price.isEmpty || photo == null || description.isEmpty) {
       customSnackBar('Gagal', 'Data tidak boleh kosong');
       return;
     } else if (int.tryParse(price) == null) {
@@ -160,6 +235,7 @@ class ShopController extends BaseController {
       'price': int.parse(price),
       'city': shop!.address,
       'pic': imageUrl,
+      'description': description,
     });
     Get.back();
     customSnackBar('Berhasil!', 'Produk berhasil ditambahkan');
@@ -177,8 +253,13 @@ class ShopController extends BaseController {
     changeLoading(false);
   }
 
-  Future<void> createShop(String name, LatLng? loc, String address) async {
-    if (name.isEmpty || loc == null || address.isEmpty) {
+  Future<void> createShop(
+    String name,
+    LatLng? loc,
+    String address,
+    String description,
+  ) async {
+    if (name.isEmpty || loc == null || address.isEmpty || description.isEmpty) {
       customSnackBar('Gagal', 'Data tidak boleh kosong');
       return;
     }
@@ -188,6 +269,7 @@ class ShopController extends BaseController {
       'lt': loc.latitude,
       'ln': loc.longitude,
       'address': address,
+      'description': description,
     });
     if (request['message'] == 'created') {
       changeShop(

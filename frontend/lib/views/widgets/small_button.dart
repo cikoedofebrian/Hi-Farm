@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:hifarm/constants/appcolor.dart';
+import 'package:hifarm/constants/app_color.dart';
 
 class SmallButton extends StatelessWidget {
   const SmallButton({

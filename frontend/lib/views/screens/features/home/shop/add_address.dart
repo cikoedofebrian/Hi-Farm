@@ -1,49 +1,40 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:hifarm/constants/app_color.dart';
+import 'package:hifarm/constants/routes.dart';
 import 'package:hifarm/controllers/shop_controller.dart';
-import 'package:hifarm/views/widgets/image_picker.dart';
-import 'package:hifarm/views/widgets/photo_container.dart';
 import 'package:hifarm/views/widgets/rounded_top_padding.dart';
 
-class CreateProduct extends StatefulWidget {
-  const CreateProduct({super.key});
+class AddAddress extends StatefulWidget {
+  const AddAddress({super.key});
 
   @override
-  State<CreateProduct> createState() => _CreateProductState();
+  State<AddAddress> createState() => _AddAddressState();
 }
 
-class _CreateProductState extends State<CreateProduct> {
-  late final TextEditingController _nameController;
-  late final TextEditingController _priceController;
-  late final TextEditingController _descriptionController;
-
+class _AddAddressState extends State<AddAddress> {
+  late final TextEditingController _titleController;
+  late final TextEditingController _addressController;
+  late final TextEditingController _phoneNumController;
   final ShopController _shopController = Get.find();
-  File? _photo;
+  LatLng? location;
+
   @override
   void initState() {
-    _descriptionController = TextEditingController();
-    _nameController = TextEditingController();
-    _priceController = TextEditingController();
+    _titleController = TextEditingController();
+    _addressController = TextEditingController();
+    _phoneNumController = TextEditingController();
+    _addressController.text = 'Pilih Lokasi';
     super.initState();
   }
 
   @override
   void dispose() {
-    _nameController.dispose();
-    _priceController.dispose();
+    _titleController.dispose();
+    _addressController.dispose();
+    _phoneNumController.dispose();
     super.dispose();
-  }
-
-  void _imagePicker() async {
-    File? photo = await imagePicker(context);
-    if (photo != null) {
-      setState(() {
-        _photo = photo;
-      });
-    }
   }
 
   @override
@@ -60,13 +51,12 @@ class _CreateProductState extends State<CreateProduct> {
                 child: Column(
                   children: [
                     Container(
-                      width: MediaQuery.of(context).size.width,
-                      alignment: Alignment.bottomLeft,
-                      height: MediaQuery.of(context).size.height * 0.16,
                       padding: const EdgeInsets.only(
                           left: 20, right: 20, top: 60, bottom: 20),
                       color: AppColor.secondary,
-                      child: Row(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           InkWell(
                             onTap: () => Get.back(),
@@ -76,18 +66,24 @@ class _CreateProductState extends State<CreateProduct> {
                               size: 50,
                             ),
                           ),
-                          Text(
-                            'Buat Produk Baru',
-                            style: Theme.of(context)
-                                .textTheme
-                                .titleMedium!
-                                .copyWith(color: Colors.white),
+                          Container(
+                            width: double.infinity,
+                            padding: const EdgeInsets.symmetric(horizontal: 20),
+                            child: Text(
+                              "Tambah Alamat",
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .titleLarge!
+                                  .copyWith(
+                                    color: Colors.white,
+                                  ),
+                            ),
                           ),
                         ],
                       ),
                     ),
                     const RoundedTopPadding(),
-                    Padding(
+                    Container(
                       padding: const EdgeInsets.symmetric(
                           horizontal: 30, vertical: 20),
                       child: Column(
@@ -97,71 +93,52 @@ class _CreateProductState extends State<CreateProduct> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                'Unggah Foto',
+                                'Nama Alamat',
                                 style: Theme.of(context).textTheme.titleSmall,
                               ),
                               const SizedBox(
                                 height: 10,
                               ),
-                              LayoutBuilder(
-                                builder: (context, constraints) {
-                                  return SizedBox(
-                                      height: constraints.maxWidth,
-                                      width: constraints.maxWidth,
-                                      child: _photo != null
-                                          ? Image.file(
-                                              _photo!,
-                                              fit: BoxFit.cover,
-                                            )
-                                          : addPhotoContainer(
-                                              context, _imagePicker));
-                                },
+                              TextField(
+                                controller: _titleController,
                               ),
                               const SizedBox(
                                 height: 20,
                               ),
                               Text(
-                                'Nama Produk',
+                                'No Telepon',
                                 style: Theme.of(context).textTheme.titleSmall,
                               ),
                               const SizedBox(
                                 height: 10,
                               ),
                               TextField(
-                                controller: _nameController,
-                              ),
-                              const SizedBox(
-                                height: 10,
-                              ),
-                              Text(
-                                'Harga',
-                                style: Theme.of(context).textTheme.titleSmall,
-                              ),
-                              const SizedBox(
-                                height: 10,
-                              ),
-                              TextField(
-                                controller: _priceController,
+                                controller: _phoneNumController,
                               ),
                               const SizedBox(
                                 height: 20,
                               ),
                               Text(
-                                'Deskripsi',
+                                'Lokasi',
                                 style: Theme.of(context).textTheme.titleSmall,
                               ),
                               const SizedBox(
                                 height: 10,
                               ),
-                              TextField(
-                                decoration: const InputDecoration(
-                                  contentPadding: EdgeInsets.all(20),
+                              InkWell(
+                                onTap: () =>
+                                    Get.toNamed(addPostLocation)!.then((value) {
+                                  if (value != null) {
+                                    setState(() {
+                                      location = value[0];
+                                      _addressController.text = value[1];
+                                    });
+                                  }
+                                }),
+                                child: TextField(
+                                  controller: _addressController,
+                                  enabled: false,
                                 ),
-                                maxLines: 5,
-                                controller: _descriptionController,
-                              ),
-                              const SizedBox(
-                                height: 100,
                               ),
                             ],
                           ),
@@ -172,19 +149,18 @@ class _CreateProductState extends State<CreateProduct> {
                 ),
               ),
               Positioned(
-                bottom: 0,
                 left: 0,
                 right: 0,
-                child: Container(
-                  color: AppColor.primary,
-                  padding:
-                      const EdgeInsets.only(left: 30, right: 30, bottom: 30),
+                bottom: 0,
+                child: Padding(
+                  padding: const EdgeInsets.all(30),
                   child: InkWell(
-                    onTap: () => _shopController.createProduct(
-                        _nameController.text,
-                        _priceController.text,
-                        _photo,
-                        _descriptionController.text),
+                    onTap: () => _shopController.createAddress(
+                      _titleController.text,
+                      _phoneNumController.text,
+                      location,
+                      _addressController.text,
+                    ),
                     child: Container(
                       alignment: Alignment.center,
                       width: double.infinity,
@@ -193,7 +169,7 @@ class _CreateProductState extends State<CreateProduct> {
                           color: AppColor.secondary,
                           borderRadius: BorderRadius.circular(10)),
                       child: Text(
-                        'Buat Produk',
+                        'Buat Alamat',
                         style: Theme.of(context)
                             .textTheme
                             .titleMedium!

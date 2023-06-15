@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:hifarm/constants/appcolor.dart';
+import 'package:hifarm/constants/app_color.dart';
 import 'package:hifarm/controllers/home_controller.dart';
 import 'package:hifarm/views/widgets/navbar_icon.dart';
 import 'package:iconify_flutter/icons/teenyicons.dart';

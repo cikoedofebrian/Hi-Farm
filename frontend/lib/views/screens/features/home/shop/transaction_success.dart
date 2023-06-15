@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:hifarm/constants/appcolor.dart';
+import 'package:hifarm/constants/app_color.dart';
 import 'package:hifarm/constants/routes.dart';
 import 'package:hifarm/controllers/shop_controller.dart';
 import 'package:hifarm/views/widgets/custom_loading_indicator.dart';
@@ -11,10 +11,11 @@ class TransactionSuccess extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final ShopController shopController = Get.find();
+    final List<dynamic> argument = Get.arguments;
     return Scaffold(
       backgroundColor: AppColor.secondary,
       body: FutureBuilder(
-          future: shopController.createTransaction(),
+          future: shopController.createTransaction(argument[0], argument[1]),
           builder: (_, snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
               return const Center(

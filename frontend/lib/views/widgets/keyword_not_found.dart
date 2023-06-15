@@ -15,6 +15,7 @@ class KeywordNotFound extends StatelessWidget {
         Text(
           title ?? 'Maaf!',
           style: Theme.of(context).textTheme.titleLarge,
+          textAlign: TextAlign.center,
         ),
         const SizedBox(
           height: 10,

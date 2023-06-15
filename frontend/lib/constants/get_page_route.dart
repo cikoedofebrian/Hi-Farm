@@ -8,11 +8,18 @@ import 'package:hifarm/views/screens/features/home/feed/add_new_post.dart';
 import 'package:hifarm/views/screens/features/home/feed/post_details.dart';
 import 'package:hifarm/views/screens/features/home/home.dart';
 import 'package:hifarm/views/screens/features/home/news/news_details.dart';
+import 'package:hifarm/views/screens/features/home/shop/add_address.dart';
+import 'package:hifarm/views/screens/features/home/shop/complete_order.dart';
 import 'package:hifarm/views/screens/features/home/shop/create_product.dart';
 import 'package:hifarm/views/screens/features/home/shop/create_shop.dart';
+import 'package:hifarm/views/screens/features/home/shop/estimation_time.dart';
+import 'package:hifarm/views/screens/features/home/shop/product_view.dart';
+import 'package:hifarm/views/screens/features/home/shop/shop_with_products.dart';
 import 'package:hifarm/views/screens/features/home/shop/transaction_success.dart';
+import 'package:hifarm/views/screens/features/home/shop/view_address.dart';
 import 'package:hifarm/views/screens/features/home/shop/view_cart.dart';
 import 'package:hifarm/views/screens/features/home/shop/view_shop.dart';
+import 'package:hifarm/views/screens/features/home/shop/view_shop_product.dart';
 import 'package:hifarm/views/screens/features/search/search_location.dart';
 
 final pageRoute = [
@@ -72,4 +79,32 @@ final pageRoute = [
     name: transactionSuccess,
     page: () => const TransactionSuccess(),
   ),
+  GetPage(
+    name: productList,
+    page: () => const ViewShopProduct(),
+  ),
+  GetPage(
+    name: shopWithProducts,
+    page: () => const ShopWithProducts(),
+  ),
+  GetPage(
+    name: productView,
+    page: () => const ProductView(),
+  ),
+  GetPage(
+    name: estimationTime,
+    page: () => const EstimationTime(),
+  ),
+  GetPage(
+    name: addressView,
+    page: () => const ViewAddress(),
+  ),
+  GetPage(
+    name: addAddress,
+    page: () => const AddAddress(),
+  ),
+  GetPage(
+    name: completeOrder,
+    page: () => const CompleteOrder(),
+  )
 ];

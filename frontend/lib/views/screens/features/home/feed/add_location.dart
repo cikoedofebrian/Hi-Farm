@@ -4,7 +4,7 @@ import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:hifarm/constants/appcolor.dart';
+import 'package:hifarm/constants/app_color.dart';
 import 'package:hifarm/constants/routes.dart';
 import 'package:lottie/lottie.dart';
 
@@ -24,6 +24,7 @@ class _AddLocationState extends State<AddLocation> {
   late final Future future;
 
   Future _determineUserCurrentPosition() async {
+    print('asdbhajhbds');
     bool serviceEnabled;
     LocationPermission permission;
     serviceEnabled = await Geolocator.isLocationServiceEnabled();
@@ -41,8 +42,13 @@ class _AddLocationState extends State<AddLocation> {
       return Future.error(
           'Location permissions are permanently denied, we cannot request permissions.');
     }
-
-    return await Geolocator.getCurrentPosition();
+    final currentLocation = await Geolocator.getCurrentPosition();
+    final Position currentPosition = currentLocation as Position;
+    _draggedLatlng =
+        LatLng(currentPosition.latitude, currentPosition.longitude);
+    _cameraPosition =
+        CameraPosition(target: _draggedLatlng, zoom: 17.5 // number of map view
+            );
   }
 
   @override
@@ -68,14 +74,14 @@ class _AddLocationState extends State<AddLocation> {
               child: CircularProgressIndicator(),
             );
           }
-
-          final Position currentPosition = snapshot.data as Position;
-          _draggedLatlng =
-              LatLng(currentPosition.latitude, currentPosition.longitude);
-          _cameraPosition = CameraPosition(
-              target: _draggedLatlng, zoom: 17.5 // number of map view
-              );
           return Stack(children: [
+            Positioned(
+              bottom: 0,
+              child: InkWell(
+                onTap: () => print(_draggedLatlng),
+                child: Text('ajhvbdjgsavdjgsadv'),
+              ),
+            ),
             _getMap(),
             _getCustomPin(),
             _showDraggedAddress(),
@@ -170,6 +176,7 @@ class _AddLocationState extends State<AddLocation> {
           InkWell(
             onTap: () => Get.toNamed(searchLocation)!.then((value) {
               if (value != null) {
+                _draggedLatlng = value;
                 _gotoSpecificPosition(value);
               }
             }),
@@ -265,6 +272,7 @@ class _AddLocationState extends State<AddLocation> {
       onCameraMove: (cameraPosition) {
         //this function will trigger when user keep dragging on map
         //every time user drag this will get value of latlng
+        print(cameraPosition.target);
         _draggedLatlng = cameraPosition.target;
       },
       onMapCreated: (GoogleMapController controller) {

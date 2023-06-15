@@ -5,7 +5,7 @@ import 'package:hifarm/controllers/feed_controller.dart';
 import 'package:hifarm/views/widgets/image_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:hifarm/constants/appcolor.dart';
+import 'package:hifarm/constants/app_color.dart';
 import 'package:hifarm/views/widgets/photo_container.dart';
 import 'package:hifarm/views/widgets/rounded_top_padding.dart';
 

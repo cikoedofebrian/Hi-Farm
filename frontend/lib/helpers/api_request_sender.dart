@@ -13,9 +13,10 @@ class ApiRequestSender {
     final AuthController authController = Get.find();
     final Uri parsedUrl = Uri.parse(url);
     late final dynamic result;
+
     // print(authController.token);
-    // print(parsedUrl);
-    // print(jsonEncode(body));
+    print(parsedUrl);
+    print(jsonEncode(body));
     switch (method) {
       case ApiMethod.get:
         result = await http.get(parsedUrl,

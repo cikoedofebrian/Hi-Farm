@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:hifarm/constants/appcolor.dart';
+import 'package:hifarm/constants/app_color.dart';
 import 'package:hifarm/constants/routes.dart';
 import 'package:hifarm/controllers/shop_controller.dart';
 import 'package:hifarm/views/widgets/keyword_not_found.dart';
@@ -23,7 +23,6 @@ class ViewCart extends StatelessWidget {
               child: Column(children: [
                 Container(
                   width: MediaQuery.of(context).size.width,
-                  height: MediaQuery.of(context).size.height * 0.2,
                   padding: const EdgeInsets.only(
                       left: 20, right: 20, top: 60, bottom: 20),
                   color: AppColor.secondary,
@@ -95,7 +94,7 @@ class ViewCart extends StatelessWidget {
                       child: Padding(
                         padding: const EdgeInsets.all(20),
                         child: InkWell(
-                          onTap: () => Get.toNamed(transactionSuccess),
+                          onTap: () => Get.toNamed(completeOrder),
                           child: Container(
                             alignment: Alignment.center,
                             padding: const EdgeInsets.symmetric(vertical: 15),

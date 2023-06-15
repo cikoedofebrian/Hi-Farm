@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:hifarm/constants/appcolor.dart';
+import 'package:hifarm/constants/app_color.dart';
 import 'package:hifarm/views/widgets/rounded_item.dart';
 
 class ScrollableRoundedPage extends StatelessWidget {

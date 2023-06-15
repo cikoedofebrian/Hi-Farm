@@ -6,6 +6,7 @@ class MShop {
   final LatLng loc;
   final String address;
   final DateTime dateCreated;
+  final String description;
 
   MShop({
     required this.id,
@@ -13,6 +14,7 @@ class MShop {
     required this.address,
     required this.dateCreated,
     required this.loc,
+    required this.description,
   });
 
   factory MShop.fromJson(Map<String, dynamic> json) {
@@ -22,6 +24,7 @@ class MShop {
       dateCreated: DateTime.parse(json['created_at']),
       loc: LatLng(json['lt'], json['ln']),
       name: json['name'],
+      description: json['description'],
     );
   }
 }

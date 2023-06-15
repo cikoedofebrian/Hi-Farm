@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:hifarm/constants/appcolor.dart';
+import 'package:hifarm/constants/app_color.dart';
 import 'package:hifarm/constants/image_string.dart';
 import 'package:hifarm/constants/routes.dart';
 import 'package:hifarm/controllers/auth_controller.dart';

@@ -42,6 +42,7 @@ class FeedController extends BaseController {
       changeLoading(false);
       _list.refresh();
     } catch (error) {
+      // print("$error from feed");
       final AuthController authController = Get.find();
       authController.logout();
     }

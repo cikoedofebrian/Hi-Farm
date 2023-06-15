@@ -3,7 +3,7 @@ import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:hifarm/constants/api_link.dart';
 import 'package:hifarm/constants/api_method.dart';
-import 'package:hifarm/constants/appcolor.dart';
+import 'package:hifarm/constants/app_color.dart';
 import 'package:hifarm/helpers/api_request_sender.dart';
 import 'package:hifarm/models/page_data/search_location_model.dart';
 

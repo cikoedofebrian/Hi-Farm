@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:hifarm/constants/appcolor.dart';
+import 'package:hifarm/constants/app_color.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 
 class CustomLoadingIndicator extends StatelessWidget {

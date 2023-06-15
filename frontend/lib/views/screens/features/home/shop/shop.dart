@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:hifarm/constants/appcolor.dart';
+import 'package:hifarm/constants/app_color.dart';
 import 'package:hifarm/constants/routes.dart';
 import 'package:hifarm/controllers/shop_controller.dart';
 import 'package:hifarm/views/widgets/custom_loading_indicator.dart';
@@ -139,11 +139,7 @@ class _ShopState extends State<Shop> {
                       itemCount: shopController.productList.length,
                       itemBuilder: (BuildContext context, int index) {
                         return ShopItem(
-                          id: shopController.productList[index].id,
-                          city: shopController.productList[index].city,
-                          image: shopController.productList[index].image,
-                          name: shopController.productList[index].name,
-                          price: shopController.productList[index].price,
+                          product: shopController.productList[index],
                         );
                       },
                     )

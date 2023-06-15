@@ -1,7 +1,7 @@
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:hifarm/constants/appcolor.dart';
+import 'package:hifarm/constants/app_color.dart';
 import 'package:hifarm/constants/image_string.dart';
 import 'package:hifarm/constants/routes.dart';
 import 'package:hifarm/controllers/auth_controller.dart';
@@ -153,17 +153,20 @@ class _LoginScreenState extends State<LoginScreen> {
                                                 .labelSmall!
                                                 .copyWith(color: Colors.grey),
                                           ),
-                                          GestureDetector(
-                                            onTap: () =>
-                                                Get.offNamed(registerScreen),
-                                            child: Text(
-                                              'Daftar Akun',
-                                              style: Theme.of(context)
-                                                  .textTheme
-                                                  .labelSmall!
-                                                  .copyWith(
-                                                      decoration: TextDecoration
-                                                          .underline),
+                                          Expanded(
+                                            child: GestureDetector(
+                                              onTap: () =>
+                                                  Get.offNamed(registerScreen),
+                                              child: Text(
+                                                'Daftar Akun',
+                                                style: Theme.of(context)
+                                                    .textTheme
+                                                    .labelSmall!
+                                                    .copyWith(
+                                                        decoration:
+                                                            TextDecoration
+                                                                .underline),
+                                              ),
                                             ),
                                           )
                                         ],

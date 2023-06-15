@@ -1,5 +1,5 @@
 import 'package:get/get.dart';
-import 'package:hifarm/constants/appcolor.dart';
+import 'package:hifarm/constants/app_color.dart';
 
 SnackbarController customSnackBar(
   String title,

@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:hifarm/constants/appcolor.dart';
+import 'package:hifarm/constants/app_color.dart';
 import 'package:hifarm/constants/image_string.dart';
 import 'package:hifarm/controllers/feed_controller.dart';
+import 'package:hifarm/controllers/user_controller.dart';
 import 'package:hifarm/views/widgets/custom_loading_indicator.dart';
 import 'package:hifarm/views/widgets/feed_post.dart';
 import 'package:hifarm/views/widgets/keyword_not_found.dart';
@@ -17,6 +18,7 @@ class Feed extends StatefulWidget {
 
 class _FeedState extends State<Feed> {
   final FeedController feedController = Get.find();
+  final UserController userController = Get.find();
   late final TextEditingController _textEditingController;
   @override
   void initState() {
@@ -53,7 +55,7 @@ class _FeedState extends State<Feed> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              'Halo, Rahel!',
+                              'Halo, ${userController.user.name}!',
                               style: Theme.of(context)
                                   .textTheme
                                   .titleSmall!

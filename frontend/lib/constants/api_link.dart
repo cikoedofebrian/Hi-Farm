@@ -18,6 +18,7 @@ class ApiLink {
   static const String getShop = '$hifarmBaseUrl/shop';
   static const String mapsDetails = '$baseMaps/place/details/json?placeid=';
   static const String getProducts = '$hifarmBaseUrl/product';
+  static const String getAddress = '$hifarmBaseUrl/address';
   static const String mapsGeocode =
       'https://maps.googleapis.com/maps/api/geocode/json?';
   static const String getOrder = '$hifarmBaseUrl/order';

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
 import 'package:get/get.dart';
-import 'package:hifarm/constants/appcolor.dart';
+import 'package:hifarm/constants/app_color.dart';
 import 'package:hifarm/controllers/home_controller.dart';
 import 'package:hifarm/controllers/user_controller.dart';
 import 'package:hifarm/views/widgets/custom_floating_action_button.dart';
@@ -35,7 +35,9 @@ class _HomeScreenState extends State<HomeScreen> {
               height: constraints.maxHeight,
               child: Stack(
                 children: [
-                  Obx(() => homeController.getPage()),
+                  Obx(
+                    () => homeController.getPage(),
+                  ),
                   KeyboardVisibilityBuilder(
                       builder: (context, isKeyboardActive) {
                     if (!isKeyboardActive) {
