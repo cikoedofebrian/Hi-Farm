@@ -17,6 +17,7 @@ return new class extends Migration
             $table->foreignId("shop_id")->constrained();
             $table->string("payment");
             $table->string("status")->default("packaging");
+            $table->foreignId("address_id")->constrained();
             $table->timestamps();
         });
     }

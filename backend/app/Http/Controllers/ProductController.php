@@ -44,6 +44,7 @@ class ProductController extends Controller
         }
         $validation = Validator::make($request->all(), [
             "name" => "required",
+            "description" => "required",
             "price" => "required",
             "city" => "required",
             "pic" => "required"
@@ -56,7 +57,7 @@ class ProductController extends Controller
             $data = $validation->safe()->only("pic");
             $picture = new Picture(["url" => $data["pic"]]);
             $picture->save();
-            $data = $validation->safe()->only(["name", "price", "city"]);
+            $data = $validation->safe()->except("pic");
             $data["shop_id"] = Auth::user()->shop->id;
             $data["picture_id"] = $picture->id;
             $product = new Product($data);
@@ -74,6 +75,7 @@ class ProductController extends Controller
     {
         $validation = Validator::make($request->all(), [
             "name" => "required",
+            "description" => "required",
             "price" => "required",
             "city" => "required",
             "pic" => "nullable"
@@ -87,7 +89,7 @@ class ProductController extends Controller
             if (Auth::user()->shop->id !== $product->shop_id) {
                 return $this->response_unauthorized();
             }
-            $data = $validation->safe()->only(["name", "price", "city"]);
+            $data = $validation->safe()->except("pic");
             $product->name = $data["name"];
             $product->price = $data["price"];
             $product->city = $data["city"];
@@ -116,6 +118,7 @@ class ProductController extends Controller
             }
             $history = new HistoryProduct([
                 "name" => $product->name,
+                "description" => $product->description,
                 "price" => $product->price,
                 "city" => $product->city,
                 "shop_id" => $product->shop_id,

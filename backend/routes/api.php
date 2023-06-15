@@ -43,16 +43,16 @@ Route::middleware("auth:api")->group(function () {
     });
 
     Route::prefix("/shop")->group(function () {
-       Route::get("/", [ShopController::class, "getAll"]);
-       Route::get("/{id}", [ShopController::class, "getByID"]);
-       Route::get("/user/{userId}", [ShopController::class, "getByUserID"]);
-       Route::post("/", [ShopController::class, "create"]);
-       Route::put("/", [ShopController::class, "edit"]);
+        Route::get("/", [ShopController::class, "getAll"]);
+        Route::get("/{id}", [ShopController::class, "getByID"]);
+        Route::get("/user/{userId}", [ShopController::class, "getByUserID"]);
+        Route::post("/", [ShopController::class, "create"]);
+        Route::put("/", [ShopController::class, "edit"]);
     });
 
     Route::prefix("/comment")->group(function () {
-       Route::get("/{postId}", [PostController::class, "getComment"]);
-       Route::post("/{postId}", [PostController::class, "postComment"]);
+        Route::get("/{postId}", [PostController::class, "getComment"]);
+        Route::post("/{postId}", [PostController::class, "postComment"]);
     });
 
     Route::prefix("/news")->group(function () {
@@ -83,5 +83,10 @@ Route::middleware("auth:api")->group(function () {
         Route::get("/shop", [OrderController::class, "getShop"]);
         Route::get("/{id}", [OrderController::class, "getOne"]);
         Route::post("/", [OrderController::class, "create"]);
+    });
+
+    Route::prefix("/address")->group(function () {
+        Route::get("/", [\App\Http\Controllers\AddressController::class, "getAlamat"]);
+        Route::post("/", [\App\Http\Controllers\AddressController::class, "createAlamat"]);
     });
 });

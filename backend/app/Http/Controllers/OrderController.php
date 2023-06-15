@@ -12,20 +12,24 @@ use PHPUnit\Exception;
 
 class OrderController extends Controller
 {
-    public function get(){
-        $orders = Order::with(["detailOrder"=>["product"=>["pic"], "deletedProduct"=>["pic"]], "user", "shop"])->where("user_id", Auth::user()->getAuthIdentifier())->get();
+    public function get()
+    {
+        $orders = Order::with(["detailOrder" => ["product" => ["pic"], "deletedProduct" => ["pic"]], "user", "shop", "address"])->where("user_id", Auth::user()->getAuthIdentifier())->get();
         return $this->response_success($orders);
     }
+
     public function getOne($id)
     {
-        $order = Order::with(["detailOrder"=>["product"=>["pic"], "deletedProduct"=>["pic"]], "user", "shop"])->where("user_id", Auth::user()->getAuthIdentifier())->find($id);
+        $order = Order::with(["detailOrder" => ["product" => ["pic"], "deletedProduct" => ["pic"]], "user", "shop", "address"])->where("user_id", Auth::user()->getAuthIdentifier())->find($id);
         if ($order) {
             return $this->response_success($order);
         }
         return $this->response_notfound();
     }
-    public function getShop() {
-        $orders = Order::with(["detailOrder"=>["product"=>["pic"], "deletedProduct"=>["pic"]], "user", "shop"])->where("shop_id", Auth::user()->shop->id)->get();
+
+    public function getShop()
+    {
+        $orders = Order::with(["detailOrder" => ["product" => ["pic"], "deletedProduct" => ["pic"]], "user", "shop", "address"])->where("shop_id", Auth::user()->shop->id)->get();
         return $this->response_success($orders);
     }
 
@@ -33,7 +37,8 @@ class OrderController extends Controller
     {
         $validation = Validator::make($request->all(), [
             "payment" => "required",
-            "shop_id" => "required",
+            "shop_id" => "required|exists:shops,id",
+            "address_id" => "required|exists:addresses,id",
             "list_order" => "required|array",
             "list_order.*.product_id" => "required|exists:products,id",
             "list_order.*.qty" => "required"
@@ -43,7 +48,7 @@ class OrderController extends Controller
         }
         DB::beginTransaction();
         try {
-            $data = $validation->safe()->only(["payment", "shop_id"]);
+            $data = $validation->safe()->except("list_order");
             $data["user_id"] = Auth::user()->getAuthIdentifier();
             $order = new Order($data);
             $order->save();
@@ -54,7 +59,7 @@ class OrderController extends Controller
                 $item_n->save();
             }
             DB::commit();
-            $order = Order::with(["detailOrder"=>["product"=>["pic"], "deletedProduct"=>["pic"]], "user", "shop"])->find($order->id);
+            $order = Order::with(["detailOrder" => ["product" => ["pic"], "deletedProduct" => ["pic"]], "user", "shop", "address"])->find($order->id);
             return $this->response_success(["message" => "created", "data" => $order]);
         } catch (Exception $e) {
             DB::rollBack();
