@@ -148,7 +148,7 @@ class _CompleteOrderState extends State<CompleteOrder> {
                                       products: shopController
                                           .cart[index].productList)),
                               const SizedBox(
-                                height: 100,
+                                height: 130,
                               ),
                             ],
                           ),
@@ -161,8 +161,10 @@ class _CompleteOrderState extends State<CompleteOrder> {
                   bottom: 0,
                   right: 0,
                   left: 0,
-                  child: Padding(
-                    padding: const EdgeInsets.all(20),
+                  child: Container(
+                    color: AppColor.primary,
+                    padding:
+                        const EdgeInsets.only(left: 20, right: 20, bottom: 20),
                     child: InkWell(
                       onTap: () {
                         if (shopController.validateTransaction(
@@ -175,18 +177,54 @@ class _CompleteOrderState extends State<CompleteOrder> {
                       },
                       child: Container(
                         alignment: Alignment.center,
-                        padding: const EdgeInsets.symmetric(vertical: 15),
+                        padding: const EdgeInsets.all(10),
                         width: double.infinity,
                         decoration: BoxDecoration(
                           color: AppColor.secondary,
                           borderRadius: BorderRadius.circular(10),
                         ),
-                        child: Text(
-                          'Selesaikan Transaksi',
-                          style:
-                              Theme.of(context).textTheme.titleMedium!.copyWith(
-                                    color: AppColor.primary,
-                                  ),
+                        child: Column(
+                          children: [
+                            Container(
+                              padding: const EdgeInsets.symmetric(
+                                vertical: 10,
+                                horizontal: 15,
+                              ),
+                              decoration: BoxDecoration(
+                                color: AppColor.primary,
+                                borderRadius: BorderRadius.circular(10),
+                              ),
+                              child: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Text(
+                                      'Total Harga',
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .titleMedium,
+                                    ),
+                                    Text(
+                                        "Rp ${shopController.getTotalCartPrice().toString()}",
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .titleMedium)
+                                  ]),
+                            ),
+                            Padding(
+                              padding:
+                                  const EdgeInsets.only(top: 20, bottom: 10),
+                              child: Text(
+                                'Selesaikan Transaksi',
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .titleMedium!
+                                    .copyWith(
+                                      color: AppColor.primary,
+                                    ),
+                              ),
+                            ),
+                          ],
                         ),
                       ),
                     ),

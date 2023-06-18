@@ -24,7 +24,6 @@ class _AddLocationState extends State<AddLocation> {
   late final Future future;
 
   Future _determineUserCurrentPosition() async {
-    print('asdbhajhbds');
     bool serviceEnabled;
     LocationPermission permission;
     serviceEnabled = await Geolocator.isLocationServiceEnabled();
@@ -43,7 +42,7 @@ class _AddLocationState extends State<AddLocation> {
           'Location permissions are permanently denied, we cannot request permissions.');
     }
     final currentLocation = await Geolocator.getCurrentPosition();
-    final Position currentPosition = currentLocation as Position;
+    final Position currentPosition = currentLocation;
     _draggedLatlng =
         LatLng(currentPosition.latitude, currentPosition.longitude);
     _cameraPosition =
@@ -75,13 +74,6 @@ class _AddLocationState extends State<AddLocation> {
             );
           }
           return Stack(children: [
-            Positioned(
-              bottom: 0,
-              child: InkWell(
-                onTap: () => print(_draggedLatlng),
-                child: Text('ajhvbdjgsavdjgsadv'),
-              ),
-            ),
             _getMap(),
             _getCustomPin(),
             _showDraggedAddress(),

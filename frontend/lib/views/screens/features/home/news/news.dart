@@ -31,6 +31,7 @@ class News extends StatelessWidget {
           ),
         ),
         body: ListView.builder(
+          padding: const EdgeInsets.only(bottom: 120),
           shrinkWrap: true,
           physics: const NeverScrollableScrollPhysics(),
           itemBuilder: (context, index) =>

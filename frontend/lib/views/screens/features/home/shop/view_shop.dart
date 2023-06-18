@@ -163,31 +163,35 @@ class _ViewShopState extends State<ViewShop> {
                               const SizedBox(
                                 height: 20,
                               ),
-                              Container(
-                                decoration: BoxDecoration(
-                                    border:
-                                        Border.all(color: AppColor.secondary),
-                                    borderRadius: BorderRadius.circular(10),
-                                    color: AppColor.primary,
-                                    boxShadow: const [
-                                      BoxShadow(
-                                        offset: Offset(2, 2),
-                                        spreadRadius: 1,
-                                        color: Colors.black12,
-                                        blurRadius: 2,
-                                      )
-                                    ]),
-                                padding:
-                                    const EdgeInsets.symmetric(vertical: 10),
-                                alignment: Alignment.center,
-                                child: Text(
-                                  'Lihat Pesanan Masuk',
-                                  style: Theme.of(context)
-                                      .textTheme
-                                      .titleMedium!
-                                      .copyWith(
-                                        color: AppColor.secondary,
-                                      ),
+                              InkWell(
+                                onTap: () => Get.toNamed(userTransactionList,
+                                    arguments: false),
+                                child: Container(
+                                  decoration: BoxDecoration(
+                                      border:
+                                          Border.all(color: AppColor.secondary),
+                                      borderRadius: BorderRadius.circular(10),
+                                      color: AppColor.primary,
+                                      boxShadow: const [
+                                        BoxShadow(
+                                          offset: Offset(2, 2),
+                                          spreadRadius: 1,
+                                          color: Colors.black12,
+                                          blurRadius: 2,
+                                        )
+                                      ]),
+                                  padding:
+                                      const EdgeInsets.symmetric(vertical: 10),
+                                  alignment: Alignment.center,
+                                  child: Text(
+                                    'Lihat Pesanan Masuk',
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .titleMedium!
+                                        .copyWith(
+                                          color: AppColor.secondary,
+                                        ),
+                                  ),
                                 ),
                               ),
                               const SizedBox(

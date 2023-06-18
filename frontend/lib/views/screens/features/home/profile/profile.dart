@@ -191,27 +191,29 @@ class _ProfileState extends State<Profile> {
                                 child: Text('Email'),
                               ),
                               Flexible(
-                                  flex: 3,
-                                  fit: FlexFit.tight,
-                                  child: TextField(
-                                    decoration: const InputDecoration(
-                                      border: InputBorder.none,
-                                      filled: false,
-                                    ),
-                                    style: Theme.of(context)
-                                        .textTheme
-                                        .labelLarge!
-                                        .copyWith(fontWeight: FontWeight.w600),
-                                    controller: emailController,
-                                    enabled: isOnEdit,
-                                  ))
+                                flex: 3,
+                                fit: FlexFit.tight,
+                                child: TextField(
+                                  decoration: const InputDecoration(
+                                    border: InputBorder.none,
+                                    filled: false,
+                                  ),
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .labelLarge!
+                                      .copyWith(fontWeight: FontWeight.w600),
+                                  controller: emailController,
+                                  enabled: isOnEdit,
+                                ),
+                              )
                             ],
                           ),
                           const SizedBox(
                             height: 20,
                           ),
                           InkWell(
-                            onTap: () => Get.toNamed(createProduct),
+                            onTap: () => Get.toNamed(userTransactionList,
+                                arguments: true),
                             child: Container(
                               decoration: BoxDecoration(
                                 border: Border.all(color: AppColor.secondary),

@@ -10,6 +10,7 @@ class NewsController extends BaseController {
   List<MNews> get list => _list;
 
   Future<void> fetchNewsData() async {
+    _list.value = [];
     final result = await ApiRequestSender.sendHttpRequest(
         ApiMethod.get, ApiLink.getNews, null);
 

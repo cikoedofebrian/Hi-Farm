@@ -97,44 +97,48 @@ class FeedController extends BaseController {
     LatLng? location,
     List<File> photoList,
   ) async {
-    if (description.isEmpty) {
-      customSnackBar(
-        'Deskripsi tidak boleh kosong!',
-        'Isi kolom deskripsi.',
-      );
-      return;
-    } else if (location == null) {
-      customSnackBar(
-        'Lokasi tidak boleh kosong!',
-        'Pilih lokasi terlebih dahulu.',
-      );
-      return;
-    } else if (photoList.isEmpty) {
-      customSnackBar(
-        'Foto tidak boleh kosong!',
-        'Upload foto terlebih dahulu.',
-      );
-      return;
+    try {
+      if (description.isEmpty) {
+        customSnackBar(
+          'Deskripsi tidak boleh kosong!',
+          'Isi kolom deskripsi.',
+        );
+        return;
+      } else if (location == null) {
+        customSnackBar(
+          'Lokasi tidak boleh kosong!',
+          'Pilih lokasi terlebih dahulu.',
+        );
+        return;
+      } else if (photoList.isEmpty) {
+        customSnackBar(
+          'Foto tidak boleh kosong!',
+          'Upload foto terlebih dahulu.',
+        );
+        return;
+      }
+
+      final AuthController authController = Get.find();
+      List<String> imageUrlList = [];
+      for (int i = 0; i < photoList.length; i++) {
+        final fStorage = FirebaseStorage.instance.ref(
+            '/${authController.token}/${DateTime.now().toIso8601String()}$i');
+        final upload = await fStorage.putFile(File(photoList[i].path));
+        final imageUrl = await upload.ref.getDownloadURL();
+        imageUrlList.add(imageUrl);
+      }
+
+      await ApiRequestSender.sendHttpRequest(ApiMethod.post, ApiLink.getPosts, {
+        'lt': location.latitude,
+        'ln': location.longitude,
+        'description': description,
+        'pics': imageUrlList,
+      });
+
+      await fetchPostData();
+      Get.back();
+    } catch (err) {
+      print(err);
     }
-
-    final AuthController authController = Get.find();
-    List<String> imageUrlList = [];
-    for (int i = 0; i < photoList.length; i++) {
-      final fStorage = FirebaseStorage.instance.ref(
-          '/${authController.token}/${DateTime.now().toIso8601String()}$i');
-      final upload = await fStorage.putFile(File(photoList[i].path));
-      final imageUrl = await upload.ref.getDownloadURL();
-      imageUrlList.add(imageUrl);
-    }
-
-    await ApiRequestSender.sendHttpRequest(ApiMethod.post, ApiLink.getPosts, {
-      'lt': location.latitude,
-      'ln': location.longitude,
-      'description': description,
-      'pics': imageUrlList,
-    });
-
-    await fetchPostData();
-    Get.back();
   }
 }

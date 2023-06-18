@@ -9,6 +9,7 @@ import 'package:hifarm/helpers/api_request_sender.dart';
 import 'package:hifarm/models/data/adddress_model.dart';
 import 'package:hifarm/models/data/product_model.dart';
 import 'package:hifarm/models/data/shop_model.dart';
+import 'package:hifarm/models/data/transaction_model.dart';
 import 'package:hifarm/models/page_data/cart_model.dart';
 import 'package:hifarm/views/widgets/custom_snack_bar.dart';
 
@@ -280,5 +281,21 @@ class ShopController extends BaseController {
     }
     Get.back();
     customSnackBar('Berhasil!', 'Toko berhasil dibuat');
+  }
+
+  Future<List<MTransaction>> getTransaction(bool isUser) async {
+    try {
+      List<MTransaction> tempList = [];
+      final url = isUser ? ApiLink.getOrder : "${ApiLink.getOrder}/shop";
+      final getTrx =
+          await ApiRequestSender.sendHttpRequest(ApiMethod.get, url, null);
+      for (var i in getTrx) {
+        tempList.add(MTransaction.fromJson(i));
+      }
+      return tempList;
+    } catch (err) {
+      print(err);
+      return [];
+    }
   }
 }

@@ -15,6 +15,8 @@ import 'package:hifarm/views/screens/features/home/shop/create_shop.dart';
 import 'package:hifarm/views/screens/features/home/shop/estimation_time.dart';
 import 'package:hifarm/views/screens/features/home/shop/product_view.dart';
 import 'package:hifarm/views/screens/features/home/shop/shop_with_products.dart';
+import 'package:hifarm/views/screens/features/home/shop/transaction_details.dart';
+import 'package:hifarm/views/screens/features/home/shop/transaction_list.dart';
 import 'package:hifarm/views/screens/features/home/shop/transaction_success.dart';
 import 'package:hifarm/views/screens/features/home/shop/view_address.dart';
 import 'package:hifarm/views/screens/features/home/shop/view_cart.dart';
@@ -106,5 +108,13 @@ final pageRoute = [
   GetPage(
     name: completeOrder,
     page: () => const CompleteOrder(),
-  )
+  ),
+  GetPage(
+    name: userTransactionList,
+    page: () => const TransactionList(),
+  ),
+  GetPage(
+    name: transactionDetails,
+    page: () => const TransactionDetails(),
+  ),
 ];

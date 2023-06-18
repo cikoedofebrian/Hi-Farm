@@ -18,4 +18,11 @@ class MInsideCart {
     required this.product,
     required this.quantity,
   });
+
+  factory MInsideCart.fromJson(Map<String, dynamic> json) {
+    return MInsideCart(
+      product: MProduct.fromJson(json['product']),
+      quantity: json['qty'],
+    );
+  }
 }
