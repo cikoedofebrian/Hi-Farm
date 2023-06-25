@@ -24,6 +24,7 @@ class TransactionDetailsItem extends StatelessWidget {
           child: Text(
             content,
             textAlign: TextAlign.end,
+            style: Theme.of(context).textTheme.titleMedium,
           ),
         )
       ]),

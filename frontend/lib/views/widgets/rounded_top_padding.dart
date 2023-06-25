@@ -17,9 +17,9 @@ class RoundedTopPadding extends StatelessWidget {
         Container(
           alignment: Alignment.center,
           height: size ?? 40,
-          decoration: const BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.only(
+          decoration: BoxDecoration(
+            color: Theme.of(context).primaryColor,
+            borderRadius: const BorderRadius.only(
               topLeft: Radius.circular(40),
               topRight: Radius.circular(40),
             ),

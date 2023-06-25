@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hifarm/constants/app_color.dart';
 import 'package:hifarm/constants/routes.dart';
+import 'package:hifarm/controllers/home_controller.dart';
 import 'package:hifarm/controllers/shop_controller.dart';
 import 'package:hifarm/models/data/adddress_model.dart';
 import 'package:hifarm/views/widgets/address_item.dart';
@@ -16,6 +17,7 @@ class ViewAddress extends StatefulWidget {
 }
 
 class _ViewAddressState extends State<ViewAddress> {
+  final HomeController homeController = Get.find();
   List<MAddress> _addressList = [];
   final bool isOnSelecting = Get.arguments;
   final ShopController shopController = Get.find();
@@ -36,7 +38,7 @@ class _ViewAddressState extends State<ViewAddress> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColor.primary,
+      backgroundColor: Theme.of(context).primaryColor,
       body: FutureBuilder(
           future: future,
           builder: (_, snapshot) {
@@ -179,16 +181,19 @@ class _ViewAddressState extends State<ViewAddress> {
                             )
                           : InkWell(
                               onTap: () => Get.toNamed(addAddress),
-                              child: const CircleAvatar(
+                              child: CircleAvatar(
                                 radius: 36,
                                 backgroundColor: AppColor.secondary,
                                 child: CircleAvatar(
                                   radius: 26,
-                                  backgroundColor: AppColor.primary,
+                                  backgroundColor:
+                                      Theme.of(context).primaryColor,
                                   child: Icon(
                                     Icons.add_rounded,
                                     size: 30,
-                                    color: AppColor.tertiary,
+                                    color: homeController.isDarkTheme
+                                        ? Colors.white
+                                        : AppColor.tertiary,
                                   ),
                                 ),
                               ),

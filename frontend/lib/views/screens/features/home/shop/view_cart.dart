@@ -14,7 +14,7 @@ class ViewCart extends StatelessWidget {
   Widget build(BuildContext context) {
     final ShopController shopController = Get.find();
     return Scaffold(
-      backgroundColor: AppColor.primary,
+      backgroundColor: Theme.of(context).primaryColor,
       body: SizedBox(
         height: MediaQuery.of(context).size.height,
         child: Stack(

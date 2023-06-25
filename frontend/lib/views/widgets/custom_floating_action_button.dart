@@ -35,15 +35,20 @@ class CustomFloatingActionButton extends StatelessWidget {
             backgroundColor: AppColor.secondary,
             child: CircleAvatar(
               radius: 26,
-              backgroundColor: AppColor.primary,
+              backgroundColor: Theme.of(context).primaryColor,
               child: homeController.selectedIndex == 0
-                  ? const Icon(
+                  ? Icon(
                       Icons.add_rounded,
                       size: 30,
-                      color: AppColor.tertiary,
+                      color: homeController.isDarkTheme
+                          ? AppColor.primary
+                          : AppColor.tertiary,
                     )
-                  : const Iconify(
+                  : Iconify(
                       Teenyicons.shop_solid,
+                      color: homeController.isDarkTheme
+                          ? AppColor.primary
+                          : AppColor.tertiary,
                     ),
             ),
           ),

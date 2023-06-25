@@ -72,7 +72,7 @@ class _TransactionDetailsState extends State<TransactionDetails> {
     }
 
     return Scaffold(
-      backgroundColor: AppColor.primary,
+      backgroundColor: Theme.of(context).primaryColor,
       body: SizedBox(
         height: MediaQuery.of(context).size.height,
         child: Stack(
@@ -145,7 +145,7 @@ class _TransactionDetailsState extends State<TransactionDetails> {
                                   padding:
                                       const EdgeInsets.symmetric(vertical: 10),
                                   decoration: BoxDecoration(
-                                    color: Colors.white,
+                                    color: Theme.of(context).primaryColor,
                                     borderRadius: BorderRadius.circular(10),
                                   ),
                                   child: InkWell(

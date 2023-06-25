@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
 import 'package:get/get.dart';
-import 'package:hifarm/constants/app_color.dart';
 import 'package:hifarm/controllers/home_controller.dart';
 import 'package:hifarm/controllers/user_controller.dart';
 import 'package:hifarm/views/widgets/custom_floating_action_button.dart';
@@ -25,7 +24,7 @@ class _HomeScreenState extends State<HomeScreen> {
     }
     return SafeArea(
       child: Scaffold(
-        backgroundColor: AppColor.primary,
+        backgroundColor: Theme.of(context).primaryColor,
         body: Obx(() {
           if (userController.isLoading) {
             return const CustomLoadingIndicator();

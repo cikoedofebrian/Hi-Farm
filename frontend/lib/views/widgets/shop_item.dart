@@ -28,7 +28,8 @@ class ShopItem extends StatelessWidget {
       onTap: () => Get.toNamed(productView, arguments: product),
       child: Container(
         decoration: BoxDecoration(
-          color: Colors.white,
+          border: Border.all(width: 1, color: AppColor.primary),
+          color: Theme.of(context).primaryColor,
           boxShadow: const [
             BoxShadow(
                 offset: Offset(0, 2),
@@ -43,13 +44,14 @@ class ShopItem extends StatelessWidget {
           children: [
             Expanded(
               child: ClipRRect(
-                  borderRadius: const BorderRadius.only(
-                      topLeft: Radius.circular(10),
-                      topRight: Radius.circular(10)),
-                  child: Image.network(
-                    product.image,
-                    fit: BoxFit.cover,
-                  )),
+                borderRadius: const BorderRadius.only(
+                    topLeft: Radius.circular(10),
+                    topRight: Radius.circular(10)),
+                child: Image.network(
+                  product.image,
+                  fit: BoxFit.cover,
+                ),
+              ),
             ),
             Padding(
               padding: const EdgeInsets.symmetric(
@@ -64,7 +66,10 @@ class ShopItem extends StatelessWidget {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(product.name),
+                        Text(
+                          product.name,
+                          style: Theme.of(context).textTheme.titleMedium,
+                        ),
                         Text(
                           'Rp ${product.price}',
                           style: Theme.of(context).textTheme.labelMedium,

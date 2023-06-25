@@ -17,7 +17,7 @@ class ShopWithProducts extends StatelessWidget {
     final MShop shop = Get.arguments;
     final ShopController shopController = Get.find();
     return Scaffold(
-        backgroundColor: AppColor.primary,
+        backgroundColor: Theme.of(context).primaryColor,
         body: FutureBuilder(
             future: shopController.getShopProducts(shop.id),
             builder: (_, snapshot) {

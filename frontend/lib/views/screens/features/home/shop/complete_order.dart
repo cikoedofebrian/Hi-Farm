@@ -38,7 +38,7 @@ class _CompleteOrderState extends State<CompleteOrder> {
     return Obx(
       () {
         return Scaffold(
-            backgroundColor: AppColor.primary,
+            backgroundColor: Theme.of(context).primaryColor,
             body: Stack(
               children: [
                 SizedBox(
@@ -93,15 +93,20 @@ class _CompleteOrderState extends State<CompleteOrder> {
                                             borderRadius:
                                                 BorderRadius.circular(10),
                                             border: Border.all(
-                                                width: 2,
-                                                color: Colors.black12)),
-                                        child: const Row(
+                                                width: 2, color: Colors.grey)),
+                                        child: Row(
                                           mainAxisAlignment:
                                               MainAxisAlignment.spaceBetween,
                                           children: [
-                                            Text('Pilih Alamat '),
-                                            Icon(
+                                            Text(
+                                              'Pilih Alamat',
+                                              style: Theme.of(context)
+                                                  .textTheme
+                                                  .titleMedium,
+                                            ),
+                                            const Icon(
                                               Icons.navigate_next_rounded,
+                                              color: Colors.grey,
                                             )
                                           ],
                                         ),
@@ -162,7 +167,7 @@ class _CompleteOrderState extends State<CompleteOrder> {
                   right: 0,
                   left: 0,
                   child: Container(
-                    color: AppColor.primary,
+                    color: Theme.of(context).primaryColor,
                     padding:
                         const EdgeInsets.only(left: 20, right: 20, bottom: 20),
                     child: InkWell(
@@ -191,7 +196,7 @@ class _CompleteOrderState extends State<CompleteOrder> {
                                 horizontal: 15,
                               ),
                               decoration: BoxDecoration(
-                                color: AppColor.primary,
+                                color: Theme.of(context).primaryColor,
                                 borderRadius: BorderRadius.circular(10),
                               ),
                               child: Row(

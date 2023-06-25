@@ -3,6 +3,7 @@ import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
 import 'package:get/get.dart';
 import 'package:hifarm/constants/app_color.dart';
 import 'package:hifarm/controllers/feed_controller.dart';
+import 'package:hifarm/controllers/home_controller.dart';
 import 'package:hifarm/models/data/comment_model.dart';
 import 'package:hifarm/views/widgets/custom_loading_indicator.dart';
 import 'package:hifarm/views/widgets/post_comment.dart';
@@ -18,6 +19,7 @@ class PostDetails extends StatefulWidget {
 class _PostDetailsState extends State<PostDetails> {
   final int id = Get.arguments;
   final FeedController feedController = Get.find();
+  final HomeController homeController = Get.find();
   bool isScrolled = false;
   late final ScrollController _scrollController;
   late final TextEditingController _textEditingController;
@@ -87,7 +89,7 @@ class _PostDetailsState extends State<PostDetails> {
           scrollToBottom();
         }
         return Scaffold(
-          backgroundColor: AppColor.primary,
+          backgroundColor: Theme.of(context).primaryColor,
           body: FutureBuilder(
             future: future,
             builder: (_, snapshot) {
@@ -123,7 +125,6 @@ class _PostDetailsState extends State<PostDetails> {
                           Column(
                             children: [
                               Container(
-                                color: Colors.white,
                                 padding:
                                     const EdgeInsets.only(left: 20, right: 20),
                                 child: Column(
@@ -147,7 +148,12 @@ class _PostDetailsState extends State<PostDetails> {
                                             const SizedBox(
                                               width: 10,
                                             ),
-                                            Text(data.user.name),
+                                            Text(
+                                              data.user.name,
+                                              style: Theme.of(context)
+                                                  .textTheme
+                                                  .titleMedium,
+                                            ),
                                           ],
                                         ),
                                         const Icon(Icons.more_vert_rounded)
@@ -158,6 +164,9 @@ class _PostDetailsState extends State<PostDetails> {
                                     ),
                                     Text(
                                       data.description,
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .labelLarge,
                                     ),
                                     const SizedBox(
                                       height: 10,
@@ -181,7 +190,6 @@ class _PostDetailsState extends State<PostDetails> {
                               ),
                               Container(
                                 width: double.infinity,
-                                color: Colors.white,
                                 padding:
                                     const EdgeInsets.symmetric(horizontal: 20),
                                 child: Column(
@@ -258,9 +266,12 @@ class _PostDetailsState extends State<PostDetails> {
                           alignment: Alignment.center,
                           padding: const EdgeInsets.symmetric(
                               horizontal: 20, vertical: 20),
-                          decoration: const BoxDecoration(
-                              color: Colors.white,
-                              boxShadow: [
+                          decoration: BoxDecoration(
+                              border: const Border(
+                                  top: BorderSide(
+                                      width: 2, color: AppColor.primary)),
+                              color: Theme.of(context).primaryColor,
+                              boxShadow: const [
                                 BoxShadow(
                                   offset: Offset(0, -1),
                                   color: Colors.black12,
@@ -272,6 +283,25 @@ class _PostDetailsState extends State<PostDetails> {
                             children: [
                               Expanded(
                                 child: TextField(
+                                  decoration: InputDecoration(
+                                      enabledBorder: UnderlineInputBorder(
+                                        borderSide: BorderSide(
+                                          width: 2,
+                                          color: homeController.isDarkTheme
+                                              ? Colors.white
+                                              : Colors.grey,
+                                        ),
+                                      ),
+                                      focusedBorder: UnderlineInputBorder(
+                                        borderSide: BorderSide(
+                                          width: 2,
+                                          color: homeController.isDarkTheme
+                                              ? Colors.white
+                                              : Colors.grey,
+                                        ),
+                                      ),
+                                      fillColor:
+                                          Theme.of(context).primaryColor),
                                   controller: _textEditingController,
                                 ),
                               ),
@@ -280,9 +310,11 @@ class _PostDetailsState extends State<PostDetails> {
                               ),
                               InkWell(
                                 onTap: sendMessage,
-                                child: const Icon(
+                                child: Icon(
                                   Icons.send_rounded,
-                                  color: AppColor.tertiary,
+                                  color: homeController.isDarkTheme
+                                      ? Colors.white
+                                      : AppColor.tertiary,
                                 ),
                               ),
                             ],

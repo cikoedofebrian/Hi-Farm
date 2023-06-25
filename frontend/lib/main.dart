@@ -18,6 +18,8 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp(
+      darkTheme: darkAppTheme,
+      themeMode: ThemeMode.light,
       initialBinding: ControllerBinding(),
       title: 'Hi-Farm',
       theme: appTheme,

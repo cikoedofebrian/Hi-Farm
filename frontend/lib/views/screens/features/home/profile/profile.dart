@@ -5,6 +5,7 @@ import 'package:hifarm/constants/app_color.dart';
 import 'package:hifarm/constants/image_string.dart';
 import 'package:hifarm/constants/routes.dart';
 import 'package:hifarm/controllers/auth_controller.dart';
+import 'package:hifarm/controllers/home_controller.dart';
 import 'package:hifarm/controllers/user_controller.dart';
 import 'package:hifarm/views/widgets/custom_loading_indicator.dart';
 import 'package:hifarm/views/widgets/image_picker.dart';
@@ -21,6 +22,8 @@ class Profile extends StatefulWidget {
 class _ProfileState extends State<Profile> {
   bool isOnEdit = false;
   File? newPhoto;
+  var appColor = AppColor();
+  final HomeController homeController = Get.find();
   final AuthController authController = Get.find();
   final UserController userController = Get.find();
   final TextEditingController nameController = TextEditingController();
@@ -54,11 +57,12 @@ class _ProfileState extends State<Profile> {
     return GestureDetector(
       onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
       child: Scaffold(
-        backgroundColor: Colors.white,
+        backgroundColor: Theme.of(context).primaryColor,
         body: Obx(() {
           if (userController.isLoading) {
             return const CustomLoadingIndicator();
           }
+
           emailController.text = userController.user.email;
           nameController.text = userController.user.name;
           return SingleChildScrollView(
@@ -156,10 +160,13 @@ class _ProfileState extends State<Profile> {
                           Row(
                             mainAxisSize: MainAxisSize.max,
                             children: [
-                              const Flexible(
+                              Flexible(
                                 flex: 1,
                                 fit: FlexFit.tight,
-                                child: Text('Nama'),
+                                child: Text(
+                                  'Nama',
+                                  style: Theme.of(context).textTheme.labelLarge,
+                                ),
                               ),
                               Flexible(
                                 flex: 3,
@@ -185,10 +192,13 @@ class _ProfileState extends State<Profile> {
                           Row(
                             mainAxisSize: MainAxisSize.max,
                             children: [
-                              const Flexible(
+                              Flexible(
                                 flex: 1,
                                 fit: FlexFit.tight,
-                                child: Text('Email'),
+                                child: Text(
+                                  'Email',
+                                  style: Theme.of(context).textTheme.labelLarge,
+                                ),
                               ),
                               Flexible(
                                 flex: 3,
@@ -274,6 +284,31 @@ class _ProfileState extends State<Profile> {
                               ),
                             ),
                           ),
+                          const SizedBox(
+                            height: 10,
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(
+                                'Dark Mode',
+                                style: Theme.of(context).textTheme.labelLarge,
+                              ),
+                              Switch(
+                                activeColor: AppColor.secondary,
+                                inactiveThumbColor: AppColor.tertiary,
+                                value: homeController.isDarkTheme,
+                                onChanged: (value) {
+                                  if (homeController.isDarkTheme) {
+                                    Get.changeThemeMode(ThemeMode.light);
+                                  } else {
+                                    Get.changeThemeMode(ThemeMode.dark);
+                                  }
+                                  homeController.changeTheme();
+                                },
+                              ),
+                            ],
+                          )
                         ],
                       ),
                       Column(

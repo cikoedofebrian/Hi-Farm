@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hifarm/constants/routes.dart';
+import 'package:hifarm/controllers/home_controller.dart';
 import 'package:hifarm/models/data/news_model.dart';
 
 class NewsPost extends StatelessWidget {
@@ -12,6 +13,7 @@ class NewsPost extends StatelessWidget {
   final MNews data;
   @override
   Widget build(BuildContext context) {
+    final HomeController homeController = Get.find();
     return InkWell(
       onTap: () => Get.toNamed(
         newsDetails,
@@ -21,7 +23,7 @@ class NewsPost extends StatelessWidget {
         padding: const EdgeInsets.symmetric(
           horizontal: 20,
         ),
-        color: Colors.white,
+        color: Theme.of(context).primaryColor,
         child: Container(
           padding: const EdgeInsets.symmetric(vertical: 10),
           decoration: const BoxDecoration(
@@ -38,7 +40,9 @@ class NewsPost extends StatelessWidget {
               Container(
                 decoration: BoxDecoration(
                   image: DecorationImage(
-                    image: NetworkImage(data.url),
+                    image: NetworkImage(homeController.isDarkTheme
+                        ? "https://images.voicy.network/Content/Clips/Images/3b412df6-3caa-4fa5-82d1-7dad916d34af-small.jpeg"
+                        : data.url),
                     fit: BoxFit.cover,
                   ),
                   borderRadius: BorderRadius.circular(10),
@@ -61,6 +65,7 @@ class NewsPost extends StatelessWidget {
                         data.description,
                         overflow: TextOverflow.fade,
                         textAlign: TextAlign.justify,
+                        style: Theme.of(context).textTheme.labelMedium,
                       ),
                     ),
                   ],

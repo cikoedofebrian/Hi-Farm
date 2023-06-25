@@ -65,7 +65,7 @@ class _TransactionListState extends State<TransactionList> {
   Widget build(BuildContext context) {
     final transactionData = getTransactionData();
     return Scaffold(
-      backgroundColor: AppColor.primary,
+      backgroundColor: Theme.of(context).primaryColor,
       body: FutureBuilder(
           future: future,
           builder: (_, snapshot) {
@@ -109,12 +109,15 @@ class _TransactionListState extends State<TransactionList> {
                       child: InkWell(
                         onTap: () => changeIndex(0),
                         child: Column(children: [
-                          const Padding(
-                              padding: EdgeInsets.symmetric(vertical: 10),
-                              child: Text('Dikemas')),
+                          Padding(
+                              padding: const EdgeInsets.symmetric(vertical: 10),
+                              child: Text(
+                                'Dikemas',
+                                style: Theme.of(context).textTheme.titleSmall,
+                              )),
                           Container(
                             height: 4,
-                            color: index == 0 ? Colors.black12 : Colors.white,
+                            color: index == 0 ? Colors.grey : null,
                           ),
                         ]),
                       ),
@@ -123,12 +126,15 @@ class _TransactionListState extends State<TransactionList> {
                       child: InkWell(
                         onTap: () => changeIndex(1),
                         child: Column(children: [
-                          const Padding(
-                              padding: EdgeInsets.symmetric(vertical: 10),
-                              child: Text('Dikirim')),
+                          Padding(
+                              padding: const EdgeInsets.symmetric(vertical: 10),
+                              child: Text(
+                                'Dikirim',
+                                style: Theme.of(context).textTheme.titleSmall,
+                              )),
                           Container(
                             height: 4,
-                            color: index == 1 ? Colors.black12 : Colors.white,
+                            color: index == 1 ? Colors.grey : null,
                           ),
                         ]),
                       ),
@@ -137,12 +143,16 @@ class _TransactionListState extends State<TransactionList> {
                       child: InkWell(
                         onTap: () => changeIndex(2),
                         child: Column(children: [
-                          const Padding(
-                              padding: EdgeInsets.symmetric(vertical: 10),
-                              child: Text('Terkirim')),
+                          Padding(
+                            padding: const EdgeInsets.symmetric(vertical: 10),
+                            child: Text(
+                              'Terkirim',
+                              style: Theme.of(context).textTheme.titleSmall,
+                            ),
+                          ),
                           Container(
                             height: 4,
-                            color: index == 2 ? Colors.black12 : Colors.white,
+                            color: index == 2 ? Colors.grey : null,
                           ),
                         ]),
                       ),
@@ -168,7 +178,7 @@ class _TransactionListState extends State<TransactionList> {
                             padding: const EdgeInsets.symmetric(
                                 horizontal: 20, vertical: 10),
                             decoration: BoxDecoration(
-                              border: Border.all(color: Colors.black12),
+                              border: Border.all(color: Colors.grey),
                               borderRadius: BorderRadius.circular(10),
                             ),
                             child: Column(
@@ -180,24 +190,38 @@ class _TransactionListState extends State<TransactionList> {
                                   child: isUser
                                       ? Row(
                                           children: [
-                                            const Iconify(
+                                            Iconify(
                                               Teenyicons.shop_solid,
                                               size: 18,
+                                              color: Theme.of(context)
+                                                  .textTheme
+                                                  .titleMedium!
+                                                  .color,
                                             ),
                                             const SizedBox(
                                               width: 10,
                                             ),
-                                            Text(transactionData[index]
-                                                .shop
-                                                .name),
+                                            Text(
+                                              transactionData[index].shop.name,
+                                              style: Theme.of(context)
+                                                  .textTheme
+                                                  .titleMedium,
+                                            ),
                                           ],
                                         )
                                       : Text(
-                                          "Kepada ${transactionData[index].customer.name}"),
+                                          "Kepada ${transactionData[index].customer.name}",
+                                          style: Theme.of(context)
+                                              .textTheme
+                                              .titleMedium,
+                                        ),
                                 ),
-                                const Divider(
+                                Divider(
                                   height: 2,
-                                  color: Colors.black,
+                                  color: Theme.of(context)
+                                      .textTheme
+                                      .titleMedium!
+                                      .color,
                                 ),
                                 const SizedBox(
                                   height: 10,
@@ -236,6 +260,9 @@ class _TransactionListState extends State<TransactionList> {
                                         ),
                                         Text(
                                           "Qty : ${transactionData[index].products[0].quantity.toString()}",
+                                          style: Theme.of(context)
+                                              .textTheme
+                                              .labelMedium,
                                         ),
                                       ],
                                     ),
@@ -245,7 +272,6 @@ class _TransactionListState extends State<TransactionList> {
                                         radius: 27,
                                         backgroundColor: AppColor.secondary,
                                         child: CircleAvatar(
-                                          backgroundColor: AppColor.primary,
                                           radius: 24,
                                           child: Text(
                                             "+ ${transactionData[index].products.length - 1}",
@@ -274,7 +300,11 @@ class _TransactionListState extends State<TransactionList> {
                                           .titleSmall,
                                     ),
                                     Text(
-                                        "Rp ${getTotalPrice(transactionData[index].products)}"),
+                                      "Rp ${getTotalPrice(transactionData[index].products)}",
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .titleMedium,
+                                    ),
                                   ],
                                 ),
                               ],

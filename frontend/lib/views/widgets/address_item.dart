@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:hifarm/constants/app_color.dart';
 import 'package:hifarm/models/data/adddress_model.dart';
 
 class AddressItem extends StatelessWidget {
@@ -23,9 +22,11 @@ class AddressItem extends StatelessWidget {
           decoration: BoxDecoration(
             border: Border.all(
               width: 2,
-              color: Colors.black12,
+              color: Colors.grey,
             ),
-            color: currentId == address.id ? Colors.black12 : AppColor.primary,
+            color: currentId == address.id
+                ? Colors.grey.shade700
+                : Theme.of(context).primaryColor,
             borderRadius: BorderRadius.circular(10),
           ),
           width: double.infinity,
@@ -38,9 +39,7 @@ class AddressItem extends StatelessWidget {
               ),
               Text(
                 address.phone.toString(),
-                style: Theme.of(context).textTheme.titleSmall!.copyWith(
-                      color: Colors.grey,
-                    ),
+                style: Theme.of(context).textTheme.titleSmall!.copyWith(),
               ),
               Text(
                 address.address,

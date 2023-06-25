@@ -40,109 +40,118 @@ class _FeedState extends State<Feed> {
     return Obx(
       () => feedController.isLoading
           ? const CustomLoadingIndicator()
-          : ScrollableRoundedPage(
-              topContent: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Row(
-                    children: [
-                      SizedBox(height: 56, child: Image.asset(homeImage1)),
-                      const SizedBox(
-                        width: 16,
-                      ),
-                      Expanded(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              'Halo, ${userController.user.name}!',
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .titleSmall!
-                                  .copyWith(color: Colors.white, fontSize: 14),
-                            ),
-                            Text(
-                              'Bagaimana keadaan peternakanmu?',
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .titleSmall!
-                                  .copyWith(color: Colors.white, fontSize: 14),
-                            ),
-                          ],
+          : RefreshIndicator(
+              onRefresh: () async {
+                feedController.changeLoading(true);
+                await feedController.fetchPostData();
+              },
+              child: ScrollableRoundedPage(
+                topContent: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Row(
+                      children: [
+                        SizedBox(height: 56, child: Image.asset(homeImage1)),
+                        const SizedBox(
+                          width: 16,
                         ),
-                      ),
-                    ],
-                  ),
-                  const SizedBox(
-                    height: 12,
-                  ),
-                  TextField(
-                    controller: _textEditingController,
-                    style: Theme.of(context).textTheme.labelMedium!,
-                    decoration: InputDecoration(
-                      hintText: 'Ada yang bisa kami bantu?',
-                      hintStyle: const TextStyle(
-                          color: Colors.grey, overflow: TextOverflow.ellipsis),
-                      suffixIcon: IconButton(
-                        padding: const EdgeInsets.only(right: 12),
-                        icon: const Icon(
-                          Icons.search,
-                          color: AppColor.secondary,
+                        Expanded(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                'Halo, ${userController.user.name}!',
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .titleSmall!
+                                    .copyWith(
+                                        color: Colors.white, fontSize: 14),
+                              ),
+                              Text(
+                                'Bagaimana keadaan peternakanmu?',
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .titleSmall!
+                                    .copyWith(
+                                        color: Colors.white, fontSize: 14),
+                              ),
+                            ],
+                          ),
                         ),
-                        onPressed: () => feedController
-                            .searchPost(_textEditingController.text),
-                      ),
-                      fillColor: Colors.white,
-                      border: OutlineInputBorder(
-                        borderSide: BorderSide.none,
-                        borderRadius: BorderRadius.circular(100),
+                      ],
+                    ),
+                    const SizedBox(
+                      height: 12,
+                    ),
+                    TextField(
+                      controller: _textEditingController,
+                      style: Theme.of(context).textTheme.labelMedium!,
+                      decoration: InputDecoration(
+                        hintText: 'Ada yang bisa kami bantu?',
+                        hintStyle: const TextStyle(
+                            color: Colors.grey,
+                            overflow: TextOverflow.ellipsis),
+                        suffixIcon: IconButton(
+                          padding: const EdgeInsets.only(right: 12),
+                          icon: const Icon(
+                            Icons.search,
+                            color: AppColor.secondary,
+                          ),
+                          onPressed: () => feedController
+                              .searchPost(_textEditingController.text),
+                        ),
+                        fillColor: Colors.white,
+                        border: OutlineInputBorder(
+                          borderSide: BorderSide.none,
+                          borderRadius: BorderRadius.circular(100),
+                        ),
                       ),
                     ),
-                  ),
-                ],
-              ),
-              body: Column(
-                children: [
-                  Obx(
-                    () {
-                      if (feedController.lastSearched.isNotEmpty) {
-                        return Column(
-                          children: [
-                            Text(
-                              'Menampilkan hasil untuk "${feedController.lastSearched}"',
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .titleSmall!
-                                  .copyWith(color: Colors.grey),
+                  ],
+                ),
+                body: Column(
+                  children: [
+                    Obx(
+                      () {
+                        if (feedController.lastSearched.isNotEmpty) {
+                          return Column(
+                            children: [
+                              Text(
+                                'Menampilkan hasil untuk "${feedController.lastSearched}"',
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .titleSmall!
+                                    .copyWith(color: Colors.grey),
+                              ),
+                              const SizedBox(
+                                height: 20,
+                              ),
+                            ],
+                          );
+                        }
+                        return const SizedBox();
+                      },
+                    ),
+                    Container(
+                      color: Colors.white,
+                      child: feedController.list.isNotEmpty
+                          ? ListView.builder(
+                              padding: const EdgeInsets.only(bottom: 100),
+                              shrinkWrap: true,
+                              itemBuilder: (context, index) =>
+                                  FeedPost(data: feedController.list[index]),
+                              physics: const NeverScrollableScrollPhysics(),
+                              itemCount: feedController.list.length,
+                            )
+                          : const KeywordNotFound(
+                              description:
+                                  'Belum ada postingan dengan keyword ini.',
                             ),
-                            const SizedBox(
-                              height: 20,
-                            ),
-                          ],
-                        );
-                      }
-                      return const SizedBox();
-                    },
-                  ),
-                  Container(
-                    color: Colors.white,
-                    child: feedController.list.isNotEmpty
-                        ? ListView.builder(
-                            padding: const EdgeInsets.only(bottom: 100),
-                            shrinkWrap: true,
-                            itemBuilder: (context, index) =>
-                                FeedPost(data: feedController.list[index]),
-                            physics: const NeverScrollableScrollPhysics(),
-                            itemCount: feedController.list.length,
-                          )
-                        : const KeywordNotFound(
-                            description:
-                                'Belum ada postingan dengan keyword ini.',
-                          ),
-                  ),
-                ],
+                    ),
+                  ],
+                ),
+                height: 0.19,
               ),
-              height: 0.19,
             ),
     );
   }

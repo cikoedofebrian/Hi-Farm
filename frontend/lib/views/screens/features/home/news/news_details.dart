@@ -12,7 +12,7 @@ class NewsDetails extends StatelessWidget {
   Widget build(BuildContext context) {
     final MNews data = Get.arguments;
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: Theme.of(context).primaryColor,
       body: SingleChildScrollView(
         child: Column(
           children: [
@@ -52,6 +52,7 @@ class NewsDetails extends StatelessWidget {
                   Text(
                     data.description,
                     textAlign: TextAlign.justify,
+                    style: Theme.of(context).textTheme.labelLarge,
                   ),
                   const SizedBox(
                     height: 20,

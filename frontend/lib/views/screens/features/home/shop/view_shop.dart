@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:hifarm/constants/app_color.dart';
 import 'package:hifarm/constants/routes.dart';
+import 'package:hifarm/controllers/home_controller.dart';
 import 'package:hifarm/controllers/shop_controller.dart';
 import 'package:hifarm/views/widgets/rounded_top_padding.dart';
 
@@ -17,6 +18,7 @@ class _ViewShopState extends State<ViewShop> {
   late final TextEditingController _nameController;
   late final TextEditingController _addressController;
   late final TextEditingController _descriptionController;
+  final HomeController homeController = Get.find();
   final ShopController _shopController = Get.find();
   LatLng? location;
   bool isOnEdit = false;
@@ -45,7 +47,7 @@ class _ViewShopState extends State<ViewShop> {
     return GestureDetector(
       onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
       child: Scaffold(
-        backgroundColor: AppColor.primary,
+        backgroundColor: Theme.of(context).primaryColor,
         body: SizedBox(
           height: MediaQuery.of(context).size.height,
           child: Stack(
@@ -113,7 +115,13 @@ class _ViewShopState extends State<ViewShop> {
                               ),
                               TextField(
                                 enabled: isOnEdit,
+                                decoration: InputDecoration(
+                                  fillColor: homeController.isDarkTheme
+                                      ? Colors.grey
+                                      : AppColor.formColor,
+                                ),
                                 controller: _nameController,
+                                style: Theme.of(context).textTheme.titleMedium,
                               ),
                               const SizedBox(
                                 height: 20,
@@ -127,9 +135,13 @@ class _ViewShopState extends State<ViewShop> {
                               ),
                               TextField(
                                 enabled: isOnEdit,
-                                decoration: const InputDecoration(
-                                  contentPadding: EdgeInsets.all(20),
+                                decoration: InputDecoration(
+                                  contentPadding: const EdgeInsets.all(20),
+                                  fillColor: homeController.isDarkTheme
+                                      ? Colors.grey
+                                      : AppColor.formColor,
                                 ),
+                                style: Theme.of(context).textTheme.titleMedium,
                                 maxLines: 5,
                                 controller: _descriptionController,
                               ),
@@ -156,8 +168,15 @@ class _ViewShopState extends State<ViewShop> {
                                       })
                                     : null,
                                 child: TextField(
+                                  decoration: InputDecoration(
+                                    fillColor: homeController.isDarkTheme
+                                        ? Colors.grey
+                                        : AppColor.formColor,
+                                  ),
                                   controller: _addressController,
                                   enabled: false,
+                                  style:
+                                      Theme.of(context).textTheme.titleMedium,
                                 ),
                               ),
                               const SizedBox(
@@ -168,10 +187,12 @@ class _ViewShopState extends State<ViewShop> {
                                     arguments: false),
                                 child: Container(
                                   decoration: BoxDecoration(
+                                      color: !homeController.isDarkTheme
+                                          ? Colors.white
+                                          : null,
                                       border:
                                           Border.all(color: AppColor.secondary),
                                       borderRadius: BorderRadius.circular(10),
-                                      color: AppColor.primary,
                                       boxShadow: const [
                                         BoxShadow(
                                           offset: Offset(2, 2),
@@ -204,7 +225,9 @@ class _ViewShopState extends State<ViewShop> {
                                       border:
                                           Border.all(color: AppColor.secondary),
                                       borderRadius: BorderRadius.circular(10),
-                                      color: AppColor.primary,
+                                      color: !homeController.isDarkTheme
+                                          ? Colors.white
+                                          : null,
                                       boxShadow: const [
                                         BoxShadow(
                                           offset: Offset(2, 2),
@@ -237,7 +260,9 @@ class _ViewShopState extends State<ViewShop> {
                                       border:
                                           Border.all(color: AppColor.secondary),
                                       borderRadius: BorderRadius.circular(10),
-                                      color: AppColor.primary,
+                                      color: !homeController.isDarkTheme
+                                          ? Colors.white
+                                          : null,
                                       boxShadow: const [
                                         BoxShadow(
                                           offset: Offset(2, 2),
@@ -282,7 +307,7 @@ class _ViewShopState extends State<ViewShop> {
                     });
                   },
                   child: Container(
-                    color: Colors.white,
+                    color: Theme.of(context).primaryColor,
                     padding:
                         const EdgeInsets.only(left: 30, right: 30, bottom: 30),
                     child: Container(

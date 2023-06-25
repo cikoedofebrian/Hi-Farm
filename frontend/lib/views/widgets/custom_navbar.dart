@@ -23,9 +23,10 @@ class _CustomNavState extends State<CustomNav> {
     return Container(
       width: MediaQuery.of(context).size.width,
       height: 100,
-      decoration: const BoxDecoration(
-        color: Colors.white,
-        border: Border(top: BorderSide(width: 2, color: AppColor.formColor)),
+      decoration: BoxDecoration(
+        color: Theme.of(context).primaryColor,
+        border:
+            const Border(top: BorderSide(width: 2, color: AppColor.formColor)),
       ),
       padding: const EdgeInsets.symmetric(
         horizontal: 20,

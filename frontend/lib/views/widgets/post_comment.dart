@@ -59,7 +59,10 @@ class PostComment extends StatelessWidget {
         const SizedBox(
           height: 10,
         ),
-        Text(comment),
+        Text(
+          comment,
+          style: Theme.of(context).textTheme.labelLarge,
+        ),
       ]),
     );
   }

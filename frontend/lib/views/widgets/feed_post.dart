@@ -30,10 +30,11 @@ class FeedPost extends StatelessWidget {
     return InkWell(
       onTap: () => Get.toNamed(postDetails, arguments: data.id),
       child: Container(
-        decoration: const BoxDecoration(
-          border: Border(
+        decoration: BoxDecoration(
+          border: const Border(
             top: BorderSide(width: 1, color: Colors.grey),
           ),
+          color: Theme.of(context).primaryColor,
         ),
         child: Column(
           children: [
@@ -56,7 +57,10 @@ class FeedPost extends StatelessWidget {
                           const SizedBox(
                             width: 10,
                           ),
-                          Text(data.user.name),
+                          Text(
+                            data.user.name,
+                            style: Theme.of(context).textTheme.titleSmall,
+                          ),
                         ],
                       ),
                       const Icon(Icons.more_vert_rounded)
@@ -65,7 +69,10 @@ class FeedPost extends StatelessWidget {
                   const SizedBox(
                     height: 10,
                   ),
-                  Text(data.description),
+                  Text(
+                    data.description,
+                    style: Theme.of(context).textTheme.labelLarge,
+                  ),
                   const SizedBox(
                     height: 10,
                   ),

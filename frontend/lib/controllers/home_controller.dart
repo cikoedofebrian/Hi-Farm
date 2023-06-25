@@ -23,4 +23,10 @@ class HomeController extends GetxController {
   Widget getPage() {
     return _pageList[selectedIndex];
   }
+
+  final RxBool _isDarkTheme = false.obs;
+  bool get isDarkTheme => _isDarkTheme.value;
+  changeTheme() {
+    _isDarkTheme.value = !_isDarkTheme.value;
+  }
 }

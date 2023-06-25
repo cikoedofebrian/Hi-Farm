@@ -179,6 +179,14 @@ class ShopController extends BaseController {
     _lastSearched.value = text;
   }
 
+  void deleteProduct(int id) async {
+    final url = "${ApiLink.getProducts}/$id";
+    await ApiRequestSender.sendHttpRequest(ApiMethod.delete, url, null);
+    await fetchProduct();
+    Get.back();
+    customSnackBar('Berhasil', 'Produk berhasil dihapus!');
+  }
+
   MInsideCart getCartProduct(int shopId, int prodId) {
     final selectedShop =
         _cart.indexWhere((element) => element.shop.id == shopId);

@@ -14,7 +14,7 @@ class ProductView extends StatelessWidget {
     final MProduct product = Get.arguments;
     final ShopController shopController = Get.find();
     return Scaffold(
-      backgroundColor: AppColor.primary,
+      backgroundColor: Theme.of(context).primaryColor,
       body: SizedBox(
         height: MediaQuery.of(context).size.height,
         child: Stack(
@@ -122,7 +122,7 @@ class ProductView extends StatelessWidget {
                                 padding:
                                     const EdgeInsets.symmetric(vertical: 10),
                                 decoration: BoxDecoration(
-                                  color: Colors.white,
+                                  color: Theme.of(context).primaryColor,
                                   borderRadius: BorderRadius.circular(10),
                                 ),
                                 child: InkWell(
@@ -249,6 +249,42 @@ class ProductView extends StatelessWidget {
                           ]),
                       child: Text(
                         'Tambahkan ke Keranjang',
+                        style:
+                            Theme.of(context).textTheme.titleMedium!.copyWith(
+                                  color: Colors.white,
+                                ),
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            if (shopController.shop != null &&
+                shopController.shop!.id == product.shop!.id)
+              Positioned(
+                bottom: 0,
+                right: 0,
+                left: 0,
+                child: Padding(
+                  padding: const EdgeInsets.all(20),
+                  child: InkWell(
+                    onTap: () => shopController.deleteProduct(product.id),
+                    child: Container(
+                      alignment: Alignment.center,
+                      padding: const EdgeInsets.symmetric(vertical: 15),
+                      width: double.infinity,
+                      decoration: BoxDecoration(
+                          color: AppColor.tertiary,
+                          borderRadius: BorderRadius.circular(10),
+                          boxShadow: const [
+                            BoxShadow(
+                              offset: Offset(4, 4),
+                              color: Colors.black26,
+                              spreadRadius: 1,
+                              blurRadius: 6,
+                            )
+                          ]),
+                      child: Text(
+                        'Hapus Produk',
                         style:
                             Theme.of(context).textTheme.titleMedium!.copyWith(
                                   color: Colors.white,

@@ -26,30 +26,38 @@ class NavbarIcon extends StatelessWidget {
       onTap: () => homeController.changeIndex(index),
       child: SizedBox(
         width: 70,
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            NavbarIndicator(isSelected: homeController.selectedIndex == index),
-            Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Iconify(
-                  icon,
-                  size: size ?? 24,
-                  color: AppColor.tertiary,
-                ),
-                const SizedBox(
-                  height: 10,
-                ),
-                Text(
-                  text,
-                  style:
-                      const TextStyle(fontSize: 12, color: AppColor.tertiary),
-                ),
-              ],
-            ),
-            const SizedBox(),
-          ],
+        child: Obx(
+          () => Column(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              NavbarIndicator(
+                  isSelected: homeController.selectedIndex == index),
+              Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Iconify(
+                    icon,
+                    size: size ?? 24,
+                    color: homeController.isDarkTheme
+                        ? AppColor.primary
+                        : AppColor.tertiary,
+                  ),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  Text(
+                    text,
+                    style: TextStyle(
+                        fontSize: 12,
+                        color: homeController.isDarkTheme
+                            ? AppColor.primary
+                            : AppColor.tertiary),
+                  ),
+                ],
+              ),
+              const SizedBox(),
+            ],
+          ),
         ),
       ),
     );

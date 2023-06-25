@@ -23,7 +23,7 @@ class PaymentWidget extends StatelessWidget {
           borderRadius: BorderRadius.circular(10),
           border: Border.all(
             width: 2,
-            color: Colors.black12,
+            color: Colors.grey,
           ),
         ),
         child: Row(children: [
@@ -39,7 +39,7 @@ class PaymentWidget extends StatelessWidget {
                 ),
                 Text(
                   type,
-                  style: const TextStyle(fontSize: 16),
+                  style: Theme.of(context).textTheme.titleMedium,
                 ),
               ],
             ),
@@ -48,10 +48,10 @@ class PaymentWidget extends StatelessWidget {
             padding: const EdgeInsets.all(3),
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(100),
-              border: Border.all(width: 1, color: Colors.black12),
+              border: Border.all(width: 1, color: Colors.grey),
             ),
             child: CircleAvatar(
-              backgroundColor: isSelected ? Colors.black12 : Colors.white,
+              backgroundColor: isSelected ? Colors.grey : Colors.white,
               radius: 6,
             ),
           )
