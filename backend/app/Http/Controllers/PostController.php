@@ -16,17 +16,22 @@ class PostController extends Controller
 {
     public function get()
     {
-        $posts = Post::with(["pics", "user"])->get();
+        $posts = Post::with(["pics", "user" => ["pic"], "comments" => ["user" => ["pic"]]])->orderBy('created_at', 'desc')->get();
         return $this->response_success($posts);
     }
 
     public function getOne($id)
     {
-        $post = Post::with(["pics", "user"])->find($id);
+        $post = Post::with(["pics", "user" => ["pic"], "comments" => ["user" => ["pic"]]])->find($id);
         if ($post) {
             return $this->response_success($post);
         }
         return $this->response_notfound();
+    }
+    public function getByKeyword($keyword)
+    {
+        $posts = Post::with(["pics", "user" => ["pic"], "comments" => ["user" => ["pic"]]])->where("description", "like", "%$keyword%")->get();
+        return $this->response_success($posts);
     }
 
     public function create(Request $request)
@@ -54,7 +59,7 @@ class PostController extends Controller
                 $postpic->save();
             }
             DB::commit();
-            $post = Post::with(["pics", "user"])->find($post->id);
+            $post = Post::with(["pics", "user" => ["pic"]])->find($post->id);
             return $this->response_success(["message" => "created", "data" => $post]);
         } catch (Exception $e) {
             DB::rollBack();
@@ -91,7 +96,7 @@ class PostController extends Controller
                         $postpic->save();
                     }
                     DB::commit();
-                    $post = Post::with(["pics", "user"])->find($post->id);
+                    $post = Post::with(["pics", "user" => ["pic"]])->find($post->id);
                     return $this->response_success(["message" => "updated", "data" => $post]);
                 } catch (Exception $e) {
                     DB::rollBack();
@@ -109,6 +114,8 @@ class PostController extends Controller
     {
         $post = Post::find($id);
         if ($post) {
+            PostPicture::where("post_id", $post->id)->delete();
+            PostComment::where("post_id", $post->id)->delete();
             if ($post->user_id === Auth::id()) {
                 $post->delete();
                 return $this->response_success(["message" => "deleted"]);
@@ -136,6 +143,7 @@ class PostController extends Controller
                     "comment" => $validation->validated()["comment"]
                 ]);
                 $comment->save();
+                $comment = PostComment::with(["user" => ["pic"]])->find($comment->id);
                 return $this->response_success(["message" => "created", "data" => $comment]);
             } catch (Exception $e) {
                 return $this->response_error(["errors" => $e->getMessage()], 500);
@@ -145,11 +153,12 @@ class PostController extends Controller
         }
     }
 
-    public function getComment($postId){
-        $post = Post::find($postId);
-        if($post){
-            return $this->response_success($post->comments);
-        }else{
+    public function getComment($postId)
+    {
+        $comments = PostComment::with(["user" => ["pic"]])->where("post_id", $postId)->get();
+        if ($comments) {
+            return $this->response_success($comments);
+        } else {
             return $this->response_notfound();
         }
     }

@@ -5,16 +5,18 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class DetailPesanan extends Model
+class News extends Model
 {
     use HasFactory;
-
     protected $fillable = [
-        "pesanan_id", "produk_id", "qty"
+      "title", "description", "picture_id"
     ];
 
     protected $hidden = [
-        "created_at",
-        "updated_at"
+        'updated_at',
     ];
+
+    public function pic(){
+        return $this->belongsTo(Picture::class, "picture_id");
+    }
 }

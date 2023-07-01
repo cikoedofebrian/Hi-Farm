@@ -13,7 +13,11 @@ use PHPUnit\Exception;
 class UserController extends Controller
 {
     public function getMe(){
-        $profile = User::with(["pic"])->find(Auth::user()->getAuthIdentifier());
+        $profile = User::with(["pic", "shop"])->find(Auth::user()->id);
+        return $this->response_success($profile);
+    }
+    public function getByID($id) {
+        $profile = User::with(["pic", "shop"])->find($id);
         return $this->response_success($profile);
     }
     public function edit(Request $request){

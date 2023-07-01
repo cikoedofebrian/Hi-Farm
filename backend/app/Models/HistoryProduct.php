@@ -5,11 +5,11 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class HistoryBarang extends Model
+class HistoryProduct extends Model
 {
     use HasFactory;
     protected $fillable = [
-        "name", "price", "city", "user_id", "picture_id"
+        "name", "description", "price", "city", "shop_id", "picture_id"
     ];
 
     protected $hidden = [
@@ -17,8 +17,8 @@ class HistoryBarang extends Model
         "updated_at"
     ];
 
-    public function user(){
-        return $this->belongsTo(User::class, "user_id");
+    public function shop(){
+        return $this->belongsTo(Shop::class, "shop_id");
     }
 
     public function pic(){
